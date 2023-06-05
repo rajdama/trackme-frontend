@@ -1,8 +1,8 @@
-import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
-import SignUpForm from "./components/Signup";
-import SignInForm from "./components/Signin";
-import Privateroute from "./components/PrivateRoute";
-import Home from "./components/Home";
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
+import SignUpForm from './components/Signup'
+import SignInForm from './components/Signin'
+import Privateroute from './components/common/PrivateRoute'
+import Home from './components/Home'
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Route path="/signin" element={<SignInForm />} />
       </Routes>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

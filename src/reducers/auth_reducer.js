@@ -1,69 +1,69 @@
-import { auth_constants } from "../actions/constants";
+import { auth_constants } from '../actions/constants'
 
 const initialState = {
   token: null,
   user: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
   },
   authenticate: false,
   authenticating: false,
-};
+}
 
 export default function auth_reducer(state = initialState, action) {
   switch (action.type) {
     case auth_constants.USER_REGISTER_REQUEST:
-      console.log(action);
+      console.log(action)
       state = {
         ...state,
         loading: true,
-      };
-      break;
+      }
+      break
     case auth_constants.USER_REGISTER_SUCCESS:
-      console.log(action);
+      console.log(action)
       state = {
         ...state,
         loading: false,
         message: action.payload.message,
-      };
-      break;
+      }
+      break
     case auth_constants.USER_REGISTER_FAILURE:
-      console.log(action);
+      console.log(action)
       state = {
         ...state,
         loading: false,
         error: action.payload.error,
-      };
-      break;
+      }
+      break
     case auth_constants.LOGIN_REQUEST:
-      console.log(action);
+      console.log(action)
       state = {
         ...state,
         authenticating: true,
-      };
-      break;
+      }
+      break
     case auth_constants.LOGIN_SUCCESS:
-      console.log(action);
+      console.log(action)
       state = {
         ...state,
         user: action.payload.user,
         token: action.payload.token,
         authenticate: true,
         authenticating: false,
-      };
-      break;
+      }
+      break
     case auth_constants.LOGOUT_REQUEST:
-      console.log(action);
+      console.log(action)
       state = {
         ...initialState,
         loading: true,
-      };
-      break;
+      }
+      break
     default:
-      console.log(action);
+      console.log(action)
   }
 
-  return state;
+  return state
 }

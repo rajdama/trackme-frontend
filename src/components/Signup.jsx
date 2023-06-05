@@ -1,61 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, NavLink } from "react-router-dom";
-import { signup } from "../actions";
-import "../css/Auth.css";
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Navigate, NavLink } from 'react-router-dom'
+import { signup } from '../actions'
+import Quotes from './common/Quotes'
+import '../css/Auth.css'
 
 function SignUpForm() {
-  const [firstname, setfirstname] = useState("");
-  const [lastname, setlastname] = useState("");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [quotes, setquotes] = useState({});
-  const auth = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-
-  const fetchquotes = () => {
-    fetch("https://type.fit/api/quotes")
-      .then((response) => response.json())
-      .then((response) => {
-        setquotes(response[getRndInteger(0, 1200)]);
-      })
-      .catch((err) => console.error(err));
-  };
-
-  useEffect(() => {
-    fetchquotes();
-  }, []);
+  const [firstname, setfirstname] = useState('')
+  const [lastname, setlastname] = useState('')
+  const [email, setemail] = useState('')
+  const [password, setpassword] = useState('')
+  const auth = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
 
   if (auth.authenticate) {
-    console.log(auth.authenticate);
-    return <Navigate to={"/"} />;
+    console.log(auth.authenticate)
+    return <Navigate to={'/'} />
   }
 
-  const getRndInteger = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
   const userSignUp = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const user = {
       firstName: firstname,
       lastName: lastname,
       email,
       password,
-    };
-    dispatch(signup(user));
-    setfirstname("");
-    setlastname("");
-    setemail("");
-    setpassword("");
-  };
+    }
+    dispatch(signup(user))
+    setfirstname('')
+    setlastname('')
+    setemail('')
+    setpassword('')
+  }
 
   return (
     <div className="appAside">
-      <div className="quotes">
-        <div id="say">{quotes["text"]}</div>
-        <div id="aname">- {quotes["author"]}</div>
-      </div>
+      <Quotes />
       <div className="appForm">
         <div className="pageSwitcher">
           <NavLink
@@ -89,7 +69,7 @@ function SignUpForm() {
                 placeholder="Enter your first name"
                 name="firstName"
                 onInput={(e) => {
-                  setfirstname(e.target.value);
+                  setfirstname(e.target.value)
                 }}
               />
             </div>
@@ -105,7 +85,7 @@ function SignUpForm() {
                 placeholder="Enter your last name"
                 name="lastName"
                 onInput={(e) => {
-                  setlastname(e.target.value);
+                  setlastname(e.target.value)
                 }}
               />
             </div>
@@ -121,7 +101,7 @@ function SignUpForm() {
                 placeholder="Enter your password"
                 name="password"
                 onInput={(e) => {
-                  setpassword(e.target.value);
+                  setpassword(e.target.value)
                 }}
               />
             </div>
@@ -137,7 +117,7 @@ function SignUpForm() {
                 placeholder="Enter your email"
                 name="email"
                 onInput={(e) => {
-                  setemail(e.target.value);
+                  setemail(e.target.value)
                 }}
               />
             </div>
@@ -151,7 +131,7 @@ function SignUpForm() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default SignUpForm;
+export default SignUpForm

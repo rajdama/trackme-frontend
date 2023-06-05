@@ -1,61 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { isUserLoggedIn, login } from "../actions";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
-import "../css/Auth.css";
+import React, { useState, useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
+import { isUserLoggedIn, login } from '../actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { Navigate } from 'react-router-dom'
+import Quotes from './common/Quotes'
+import '../css/Auth.css'
 
 function SignInForm() {
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [quotes, setquotes] = useState({});
-  const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
-
-  const fetchquotes = () => {
-    fetch("https://type.fit/api/quotes")
-      .then((response) => response.json())
-      .then((response) => {
-        setquotes(response[getRndInteger(0, 1200)]);
-      })
-      .catch((err) => console.error(err));
-  };
-
-  useEffect(() => {
-    fetchquotes();
-  }, []);
+  const [email, setemail] = useState('')
+  const [password, setpassword] = useState('')
+  const dispatch = useDispatch()
+  const auth = useSelector((state) => state.auth)
 
   useEffect(() => {
     if (!auth.authenticate) {
-      dispatch(isUserLoggedIn());
+      dispatch(isUserLoggedIn())
     }
-  }, []);
+  }, [])
 
   if (auth.authenticate) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={'/'} />
   }
 
-  const getRndInteger = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
   const userLogin = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const user = {
       email,
       password,
-    };
-    setemail("");
-    setpassword("");
-    dispatch(login(user));
-  };
+    }
+    setemail('')
+    setpassword('')
+    dispatch(login(user))
+  }
 
   return (
     <div className="appAside">
-      <div className="quotes">
-        <div id="say">{quotes["text"]}</div>
-        <div id="aname">- {quotes["author"]}</div>
-      </div>
+      <Quotes />
       <div className="appForm">
         <div className="pageSwitcher">
           <NavLink
@@ -89,7 +69,7 @@ function SignInForm() {
                 placeholder="Enter your email"
                 name="email"
                 onChange={(e) => {
-                  setemail(e.target.value);
+                  setemail(e.target.value)
                 }}
               />
             </div>
@@ -106,7 +86,7 @@ function SignInForm() {
                 placeholder="Enter your password"
                 name="password"
                 onChange={(e) => {
-                  setpassword(e.target.value);
+                  setpassword(e.target.value)
                 }}
               />
             </div>
@@ -115,7 +95,7 @@ function SignInForm() {
               <button
                 className="formFieldButton"
                 onClick={(e) => {
-                  userLogin(e);
+                  userLogin(e)
                 }}
               >
                 Sign In
@@ -125,7 +105,7 @@ function SignInForm() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default SignInForm;
+export default SignInForm
