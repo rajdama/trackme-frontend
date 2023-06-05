@@ -14,6 +14,29 @@ const initialState = {
 
 export default function auth_reducer(state = initialState, action) {
   switch (action.type) {
+    case auth_constants.USER_REGISTER_REQUEST:
+      console.log(action);
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case auth_constants.USER_REGISTER_SUCCESS:
+      console.log(action);
+      state = {
+        ...state,
+        loading: false,
+        message: action.payload.message,
+      };
+      break;
+    case auth_constants.USER_REGISTER_FAILURE:
+      console.log(action);
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      };
+      break;
     case auth_constants.LOGIN_REQUEST:
       console.log(action);
       state = {
