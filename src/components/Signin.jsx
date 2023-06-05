@@ -33,21 +33,12 @@ function SignInForm() {
   }, []);
 
   if (auth.authenticate) {
-    console.log(auth.authenticate);
-    return <Navigate to={"/signup"} />;
+    return <Navigate to={"/"} />;
   }
-
-  console.log(auth);
 
   const getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
-
-  // useEffect(() => {
-  //   if (!auth.authenticate) {
-  //     dispatch(isUserLoggedIn());
-  //   }
-  // }, []);
 
   const userLogin = (e) => {
     e.preventDefault();
@@ -57,11 +48,6 @@ function SignInForm() {
     };
     dispatch(login(user));
   };
-  // console.log(localStorage);
-  // if (auth.authenticate) {
-  //   console.log(user.chart);
-  //   return <Navigate to={"/chart"} />;
-  // }
 
   return (
     <div className="appAside">

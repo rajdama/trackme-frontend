@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { signup } from "../actions";
 
 import "../css/Auth.css";
@@ -14,10 +14,6 @@ function SignUpForm() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const getRndInteger = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
   const fetchquotes = () => {
     fetch("https://type.fit/api/quotes")
       .then((response) => response.json())
@@ -25,6 +21,19 @@ function SignUpForm() {
         setquotes(response[getRndInteger(0, 1200)]);
       })
       .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchquotes();
+  }, []);
+
+  if (auth.authenticate) {
+    console.log(auth.authenticate);
+    return <Navigate to={"/"} />;
+  }
+
+  const getRndInteger = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
   const userSignUp = (e) => {
@@ -37,12 +46,6 @@ function SignUpForm() {
     };
     dispatch(signup(user));
   };
-
-  useEffect(() => {
-    fetchquotes();
-  }, []);
-
-  console.log(auth);
 
   return (
     <div className="appAside">
