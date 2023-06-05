@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, NavLink } from "react-router-dom";
 import { signup } from "../actions";
-
 import "../css/Auth.css";
 
 function SignUpForm() {
@@ -45,6 +44,10 @@ function SignUpForm() {
       password,
     };
     dispatch(signup(user));
+    setfirstname("");
+    setlastname("");
+    setemail("");
+    setpassword("");
   };
 
   return (
@@ -80,6 +83,7 @@ function SignUpForm() {
               </label>
               <input
                 type="text"
+                value={firstname}
                 id="firstName"
                 className="formFieldInput"
                 placeholder="Enter your first name"
@@ -95,6 +99,7 @@ function SignUpForm() {
               </label>
               <input
                 type="text"
+                value={lastname}
                 id="lastName"
                 className="formFieldInput"
                 placeholder="Enter your last name"
@@ -110,6 +115,7 @@ function SignUpForm() {
               </label>
               <input
                 type="password"
+                value={password}
                 id="password"
                 className="formFieldInput"
                 placeholder="Enter your password"
@@ -125,6 +131,7 @@ function SignUpForm() {
               </label>
               <input
                 type="email"
+                value={email}
                 id="email"
                 className="formFieldInput"
                 placeholder="Enter your email"

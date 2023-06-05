@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { isUserLoggedIn, login } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-
 import "../css/Auth.css";
 
 function SignInForm() {
@@ -46,6 +45,8 @@ function SignInForm() {
       email,
       password,
     };
+    setemail("");
+    setpassword("");
     dispatch(login(user));
   };
 
@@ -82,6 +83,7 @@ function SignInForm() {
               </label>
               <input
                 type="email"
+                value={email}
                 id="email"
                 className="formFieldInput"
                 placeholder="Enter your email"
@@ -98,6 +100,7 @@ function SignInForm() {
               </label>
               <input
                 type="password"
+                value={password}
                 id="password"
                 className="formFieldInput"
                 placeholder="Enter your password"
