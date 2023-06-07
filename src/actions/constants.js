@@ -8,3 +8,9 @@ export const auth_constants = {
   LOGIN_SUCCESS: 'LOGIN_SUCCESS',
   LOGOUT_REQUEST: 'LOGOUT_REQUEST',
 }
+
+export const user_constants = {
+  FOOD_LIST_REQUEST: 'FOOD_LIST_REQUEST',
+  FOOD_LIST_SUCCESS: 'FOOD_LIST_SUCCESS',
+  FOOD_LIST_FAILURE: 'FOOD_LIST_FAILURE',
+}

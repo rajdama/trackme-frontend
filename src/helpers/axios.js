@@ -1,11 +1,16 @@
 import axios from 'axios'
-import { server } from '../urlConfig'
+import { server, foodApi } from '../urlConfig'
 
-const axiosInstance = axios.create({
+const serverAxiosInstance = axios.create({
   baseURL: server,
   // headers : {
   //     "Authorization" : ""
   // }
 })
 
-export default axiosInstance
+const apiAxiosInstance = axios.create({
+  baseURL: foodApi,
+})
+
+// const instances = { serverAxiosInstance, apiAxiosInstance }
+export { serverAxiosInstance, apiAxiosInstance }

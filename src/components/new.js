@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
-import Navbar from './Navbar'
+// import Navbar from './Navbar';
 import { CircularProgressbar } from 'react-circular-progressbar'
-import 'react-circular-progressbar/dist/styles.css'
+// import 'react-circular-progressbar/dist/styles.css'
 // import { male, female, getRandomInt } from './avatarget'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
 import { PickersDay } from '@mui/x-date-pickers/PickersDay'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import '../css/home.css'
 
 function Home() {
   //instead of these variable use the data stored in redux wherever necessary
@@ -117,14 +117,14 @@ function Home() {
   }, [])
   const [userData, setUserData] = useState({})
   return (
-    <Page>
+    <div className="page">
       {window.innerWidth >= 500 ? (
         load === true ? (
           <div>{console.log('Loading')}Loading...</div>
         ) : (
-          <Main>
-            <Navbar />
-            <Display>
+          <div className="main">
+            {/* <Navbar /> */}
+            <div className="display">
               <div id="upper">
                 <div
                   style={{
@@ -154,7 +154,7 @@ function Home() {
                       {userData[currdate][0][0]['Breakfast'].map(
                         (item, index) => {
                           return (
-                            <Card>
+                            <div className="card">
                               <div id="food-img">
                                 <img src={item.img} alt=""></img>
                               </div>
@@ -174,7 +174,7 @@ function Home() {
                                 <div>Carbs: {item.carbs}</div>
                                 <div>Sugar: {item.sugar}</div>
                               </div>
-                            </Card>
+                            </div>
                           )
                         }
                       )}
@@ -196,7 +196,7 @@ function Home() {
                       {userData[currdate][0][0]['Breakfast'].map((item) => {
                         // console.log(item.img)
                         return (
-                          <Card>
+                          <div className="card">
                             <div id="food-img">
                               <img src={item.img} alt=""></img>
                             </div>
@@ -216,7 +216,7 @@ function Home() {
                               <div>Carbs: {item.carbs}</div>
                               <div>Sugar: {item.sugar}</div>
                             </div>
-                          </Card>
+                          </div>
                         )
                       })}
                     </div>
@@ -237,7 +237,7 @@ function Home() {
                       {userData[currdate][0][0]['Breakfast'].map((item) => {
                         // console.log(item.img)
                         return (
-                          <Card>
+                          <div classNamecard>
                             <div id="food-img">
                               <img src={item.img} alt=""></img>
                             </div>
@@ -257,7 +257,7 @@ function Home() {
                               <div>Carbs: {item.carbs}</div>
                               <div>Sugar: {item.sugar}</div>
                             </div>
-                          </Card>
+                          </div>
                         )
                       })}
                     </div>
@@ -278,7 +278,7 @@ function Home() {
                       {userData[currdate][0][0]['Breakfast'].map((item) => {
                         // console.log(item.img)
                         return (
-                          <Card>
+                          <div className="card">
                             <div id="food-img">
                               <img src={item.img} alt=""></img>
                             </div>
@@ -298,7 +298,7 @@ function Home() {
                               <div>Carbs: {item.carbs}</div>
                               <div>Sugar: {item.sugar}</div>
                             </div>
-                          </Card>
+                          </div>
                         )
                       })}
                     </div>
@@ -328,7 +328,7 @@ function Home() {
                     <div>Workout :</div>
                     {userData[currdate][1].map((item, index) => {
                       return (
-                        <Card1>
+                        <div className="card1">
                           <div id="exercise-img">
                             <img src={item.img} alt=""></img>
                           </div>
@@ -346,14 +346,14 @@ function Home() {
                             <div>Calories: {item.calories}</div>
                             <div>Duration : {item.duration}</div>
                           </div>
-                        </Card1>
+                        </div>
                       )
                     })}
                   </div>
                 </div>
               </div>
-            </Display>
-            <Profile>
+            </div>
+            <div className="profile">
               <div
                 style={{
                   height: '10vh',
@@ -434,233 +434,14 @@ function Home() {
                   />
                 </LocalizationProvider>
               </div>
-            </Profile>
-          </Main>
+            </div>
+          </div>
         )
       ) : (
         <>Repsonsive</>
       )}
-    </Page>
+    </div>
   )
 }
-const Page = styled.div`
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: row;
-`
-const Main = styled.div`
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: row;
-`
-const Display = styled.div`
-  height: 100vh;
-  width: 70vw;
-  background-color: rgba(242, 243, 247, 1);
-  display: flex;
-  flex-direction: column;
-  color: black;
-  #upper {
-    height: 12vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-end;
-  }
-  #upper > div {
-    margin-left: 5%;
-  }
-  #lower {
-    height: 88vh;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-  #left-low {
-    background-color: rgba(225, 225, 225, 1);
-    height: 90%;
-    width: 50%;
-    overflow: scroll;
-    margin-right: 1vw;
-  }
-  #left-low::-webkit-scrollbar {
-    display: none;
-  }
-  #right-low {
-    background-color: rgba(225, 225, 225, 1);
-    height: 90%;
-    width: 35%;
-  }
-  #workout {
-    height: 50%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: scroll;
-  }
-  #workout::-webkit-scrollbar {
-    display: none;
-  }
-  .meals {
-    color: black;
-    width: 100%;
-    height: 25%;
-    display: flex;
-    flex-direction: column;
-  }
-  .cards {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-  }
-  #total-data {
-    height: 40%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-bottom: 3vh;
-  }
-  .total-cards {
-    height: 40%;
-    width: 45%;
-    display: flex;
-    flex-direction: row;
-    background-color: white;
-    border: 2px solid #dadada;
-    border-radius: 10px;
-    margin: 5px;
-  }
-  .name-card {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: bold;
-  }
-`
-const Profile = styled.div`
-  height: 100vh;
-  width: 25vw;
-  background-color: rgba(201, 213, 165, 1);
-  display: flex;
-  flex-direction: column;
-  #prof-img {
-    height: 20%;
-    width: 100%;
-    margin-top: 5%;
-  }
-  #prof-img > img {
-    height: 100%;
-    width: 40%;
-    border-radius: 50%;
-  }
-  #calendar {
-    width: 25vw;
-    overflow: hidden;
-    margin-top: 6vh;
-    color: black;
-    margin-top: 10vh;
-  }
-  .MuiPickersDay-today {
-    background-color: lightgreen !important;
-  }
-  .MuiPickersLayout-root,
-  .css-4pax7l-MuiPickersLayout-root {
-    height: 60vh;
-    background-color: transparent !important;
-  }
-  .MuiCalendarOrClockPicker-root,
-  .css-j3g793-MuiCalendarOrClockPicker-root {
-    width: 25vw;
-    background-color: transparent;
-  }
-  .css-xelq0e-MuiPickerStaticWrapper-content {
-    background-color: transparent;
-    width: 100%;
-    min-width: 0px;
-  }
-  #day-green {
-    background-color: lightgreen !important;
-  }
-  #day-red {
-    background-color: rgba(255, 115, 115, 1) !important;
-  }
-`
-const Card = styled.div`
-  height: 90%;
-  width: 17vw;
-  display: flex;
-  flex-direction: row;
-  color: black;
-  font-size: 14px;
-  #food-img {
-    height: 100%;
-    width: 50%;
-  }
-  #food-img > img {
-    height: 100%;
-    width: 100%;
-  }
-  border: 2px solid black;
-  border-radius: 10px;
-  margin-top: 2vh;
-  margin-right: 10px;
-  #food-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 5px;
-  }
-  #food-info div:first-child {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  &:hover {
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-`
-const Card1 = styled.div`
-  height: 42%;
-  width: 80%;
-  display: flex;
-  flex-direction: row;
-  font-size: 14px;
-  border: 2px solid black;
-  #exercise-img {
-    height: 100%;
-  }
-  #exercise-img > img {
-    height: 100%;
-    width: 100%;
-  }
-  border-radius: 10px;
-  margin-top: 2vh;
-  margin-right: 10px;
-  #exercise-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 5px;
-  }
-  #exercise-info div:first-child {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  &:hover {
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-`
+
 export default Home

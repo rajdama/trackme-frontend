@@ -1,10 +1,10 @@
+import { serverAxiosInstance } from '../helpers/axios'
 import { auth_constants } from './constants'
-import axios from '../helpers/axios'
 
 export const signup = (user) => {
   return async (dispatch) => {
     dispatch({ type: auth_constants.USER_REGISTER_REQUEST })
-    const res = await axios.post('/signup', {
+    const res = await serverAxiosInstance.post('/signup', {
       ...user,
     })
     console.log(res)
@@ -30,7 +30,7 @@ export const login = (user) => {
   console.log(user)
   return async (dispatch) => {
     dispatch({ type: auth_constants.LOGIN_REQUEST })
-    const res = await axios.post('/signin', {
+    const res = await serverAxiosInstance.post('/signin', {
       ...user,
     })
 
