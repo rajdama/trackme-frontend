@@ -1,45 +1,49 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import Navbar from './Navbar'
 import { CircularProgressbar } from 'react-circular-progressbar'
-import { foodList } from '../actions/user_actions'
+import {
+  createMealPlan,
+  foodList,
+  getMealPlan,
+  mealPlanExists,
+  updateMealPlan,
+} from '../actions/user_actions'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+
 import '../css/mealPlanner.css'
 // import "react-circular-progressbar/dist/styles.css";
 
 function Mealplanner() {
-  //states for storing the total nutrients for the day
-  const [calorie, setcalories] = useState(0)
-  // Go to the component SignupWeightGoal there I have set the cookie named "calcnt"
-  const maxcal = 5
-  const [protein, setprotein] = useState(0)
-  const [carbs, setcarbs] = useState(0)
-  const [sugar, setsugar] = useState(0)
-  //We will store the added food items in the respective arrays which is declared for breakfast,lunch,snack,dinnner
-  const [breakfastItems, setBreakfastItems] = useState([
-    {
-      img: 'https://img.freepik.com/premium-photo/masala-dosa-is-south-indian-meal-served-with-sambhar-coconut-chutney-selective-focus_466689-22933.jpg?size=626&ext=jpg&ga=GA1.2.738037006.1685704227&semt=sph',
-      name: 'Dosa',
-      cal: 170,
-      carbs: 40,
-      protein: 10,
-      sugar: 5,
-    },
-    {
-      img: 'https://img.freepik.com/free-photo/grilled-sandwich-with-bacon-fried-egg-tomato-lettuce-served-wooden-cutting-board_1150-42571.jpg?size=626&ext=jpg&ga=GA1.2.143797289.1685691440&semt=sph',
-      name: 'Sandwich',
-      cal: 170,
-      carbs: 40,
-      protein: 10,
-      sugar: 5,
-    },
-  ])
-  const [lunchItems, setlunchItems] = useState([])
-  const [snackItems, setsnackItems] = useState([])
-  const [dinnerItems, setdinnerItems] = useState([])
+  let nutrients = [{}, {}, {}, {}]
+
+  const [period, setperiod] = useState(0)
+  // let mealPlan = [[], [], [], []]
+  const [mealPlan, setMealPlan] = useState([[], [], [], []])
+  const [loading, setLoading] = useState(false)
   const [selectedFood, setSelectedFood] = useState({})
+
+  const setPeriodTime = async (val) => {
+    await setperiod(val)
+  }
+
+  //We will store the added food items in the respective arrays which is declared for breakfast,lunch,snack,dinnner
+
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getMealPlan(auth.user.$id))
+    if (user.message.length === 0) {
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      setMealPlan([...user.message])
+    }
+  }, [])
+
+  const periods = ['Breakfast', 'Lunch', 'Snacks', 'Dinner']
 
   let items
 
@@ -51,56 +55,46 @@ function Mealplanner() {
   }
 
   const handleOnSearch = (string, results) => {
-    // onSearch will have as the first callback parameter
-    // the string searched and for the second the results.
-    if (string != '') {
+    if (string !== '') {
       dispatch(foodList(string))
     }
-    // setFoodTitle(string)
   }
 
+  const handleOnSave = () => {
+    console.log(user.exists)
+    dispatch(mealPlanExists(auth.user.$id))
+    console.log(user.exists)
+    if (user.exists) {
+      dispatch(updateMealPlan(selectedFood, period, auth.user.$id))
+    } else {
+      dispatch(createMealPlan(selectedFood, period, auth.user.$id))
+    }
+    document.getElementById('save').style.display = 'none'
+    document.getElementById('saving').style.display = 'block'
+    if (!user.loading) {
+      document.getElementById('save').style.display = 'block'
+      document.getElementById('saving').style.display = 'none'
+    }
+  }
+
+  const auth = useSelector((state) => state.auth)
   const handleOnSelect = (item) => {
-    // if (user.target == "gain") {
-    //   if (item.calories < 600) {
-    //     item = { ...item, warning: "Calories are too low" };
-    //   }
-    // }
-    // if (user.target == "lose") {
-    //   if (item.calories > 600) {
-    //     item = { ...item, warning: "Calories are too high" };
-    //   }
-    // }
-    // if (user.target == "maintain") {
-    //   if (item.calories < 600 || item.calories > 700) {
-    //     item = {
-    //       ...item,
-    //       warning: "Calories are not in the range for maintaining weight",
-    //     };
-    //   }
-    // }
-    // item = { ...item, title: item.name, calories: Math.round(item.calories) };
-
     setSelectedFood({ ...item })
-    // the item selected
   }
 
-  setTimeout(() => {
-    console.log(selectedFood)
-  }, 10000)
-
-  const handleOnClear = () => {
-    // setSelectedFood({})
-  }
+  const handleOnClear = () => {}
 
   const user = useSelector((state) => state.user)
 
-  if (user.message) {
-    items = user.message.hits.map((item, i) => {
+  if (user.selectedFood?.hits) {
+    items = user.selectedFood.hits.map((item, i) => {
       return {
-        id: i,
         name: item.recipe.label,
         image: item.recipe.image,
-        calories: item.recipe.calories,
+        calories: Math.round(item.recipe.calories),
+        protein: Math.round(item.recipe.digest[2].total),
+        carbs: Math.round(item.recipe.digest[1].total),
+        sugar: Math.round(item.recipe.totalNutrients.SUGAR.quantity),
       }
     })
   }
@@ -134,6 +128,7 @@ function Mealplanner() {
               // formatResult={formatResult}
             />
           </form>
+          <p>form</p>
           {selectedFood.name && (
             <>
               <div
@@ -159,21 +154,24 @@ function Mealplanner() {
                 {selectedFood.warning ? (
                   <div style={{ color: 'red' }}>{selectedFood.warning}</div>
                 ) : (
-                  <button
-                    className="my-5"
-                    onClick={() => {
-                      // dispatch(
-                      //   occupiedCells({
-                      //     cell: selectedCell,
-                      //     food: selectedFood,
-                      //   })
-                      // );
-                      // window.location.reload();
-                    }}
-                    style={{ height: '50px', borderRadius: '15px' }}
-                  >
-                    Save
-                  </button>
+                  <>
+                    {user.loading ? (
+                      <button
+                        className="my-5 "
+                        id="save"
+                        onClick={() => {
+                          handleOnSave()
+                        }}
+                        style={{ height: '50px', borderRadius: '15px' }}
+                      >
+                        Save
+                      </button>
+                    ) : (
+                      <p id="saving" style={{ color: 'wheat' }}>
+                        saving
+                      </p>
+                    )}
+                  </>
                 )}
               </div>
             </>
@@ -195,8 +193,8 @@ function Mealplanner() {
             <div className="progress-track" id="calorie">
               <div>Calories:</div>
               <CircularProgressbar
-                value={calorie / maxcal}
-                text={`${calorie} / ${maxcal}`}
+              // value={calorie / maxcal}
+              // text={`${calorie} / ${maxcal}`}
               />
             </div>
             <div className="progress-track" id="carbs">
@@ -207,7 +205,7 @@ function Mealplanner() {
               <div>Protein:</div>
               <CircularProgressbar value={66} text={`${66}%`} />
             </div>
-            <div className="progress-track" id="sugar">
+            <div className="progress-track" id="period">
               <div>Sugar:</div>
               <CircularProgressbar value={66} text={`${66}%`} />
             </div>
@@ -215,212 +213,87 @@ function Mealplanner() {
         </div>
         <div id="lower">
           <div id="container">
-            <div className="meals" id="breakfast">
-              <div id="lab">Breakfast :</div>
-              <div className="cards">
-                {breakfastItems.map((item) => {
-                  // console.log(item.img)
-                  return (
-                    <Card>
-                      <div id="food-img">
-                        <img src={item.img} alt=""></img>
+            {!user.loading ? (
+              mealPlan.length === 4 &&
+              mealPlan.map((meal, index) => {
+                nutrients[index].calorie = 0
+                nutrients[index].sugar = 0
+                nutrients[index].carbs = 0
+                nutrients[index].protein = 0
+                return (
+                  <>
+                    {console.log(user)}
+                    <div className="meals" id="breakfast">
+                      <div id="lab">{periods[index]}</div>
+                      <div
+                        onClick={async () => {
+                          setPeriodTime(index)
+                        }}
+                        className="cards"
+                      >
+                        {meal.length !== 0 &&
+                          meal.map((item) => {
+                            nutrients[index].calorie =
+                              nutrients[index].calorie + item.calories
+
+                            nutrients[index].sugar =
+                              nutrients[index].sugar + item.sugar
+
+                            nutrients[index].carbs =
+                              nutrients[index].carbs + item.carbs
+
+                            nutrients[index].protein =
+                              nutrients[index].protein + item.protein
+
+                            return (
+                              <Card>
+                                <div id="food-img">
+                                  <img src={item.image} alt=""></img>
+                                </div>
+                                <div id="food-info">
+                                  <div>{item.name}</div>
+                                  <div>Calories: {item.calories}</div>
+                                  <div>Protein: {item.protein}</div>
+                                  <div>Carbs: {item.carbs}</div>
+                                  <div>Sugar: {item.sugar}</div>
+                                </div>
+                              </Card>
+                            )
+                          })}
+                        {console.log(nutrients)}
+                        <div id="add">
+                          <img
+                            onClick={() => {
+                              openSearch()
+                            }}
+                            src="https://img.icons8.com/?size=1x&id=110229&format=png"
+                            alt=""
+                          ></img>
+                        </div>
                       </div>
-                      <div id="food-info">
-                        <div>{item.name}</div>
-                        <div>Calories: {item.cal}</div>
-                        <div>Protein: {item.protein}</div>
-                        <div>Carbs: {item.carbs}</div>
-                        <div>Sugar: {item.sugar}</div>
+                      <div id="macro">
+                        <div>Total Calories :{nutrients[index].calorie}</div>
+                        <div>Total Protein :{nutrients[index].protein}</div>
+                        <div>Total Carbs :{nutrients[index].carbs}</div>
+                        <div>Total Sugar :{nutrients[index].sugar}</div>
                       </div>
-                    </Card>
-                  )
-                })}
-                <div id="add">
-                  <img
-                    onClick={() => {
-                      openSearch()
-                    }}
-                    src="https://img.icons8.com/?size=1x&id=110229&format=png"
-                    alt=""
-                  ></img>
-                </div>
-              </div>
-              <div id="macro">
-                <div>
-                  Total Calories :{' '}
-                  {/* Add here the total calories for breakfast*/}
-                </div>
-                <div>
-                  Total Protein :{' '}
-                  {/* Add here the total protein for breakfast*/}
-                </div>
-                <div>
-                  Total Carbs : {/* Add here the total carbs for breakfast*/}
-                </div>
-                <div>
-                  Total Sugar : {/* Add here the total sugar for breakfast*/}
-                </div>
-              </div>
-            </div>
-            <hr
-              style={{
-                background: 'lime',
-                color: 'lime',
-                borderColor: 'lime',
-                height: '3px',
-                width: '60vw',
-                marginLeft: '15%',
-              }}
-            />
-            <div className="meals" id="lunch">
-              <div id="lab">Lunch :</div>
-              <div className="cards">
-                {breakfastItems.map((item) => {
-                  return (
-                    <Card>
-                      <div id="food-img">
-                        <img src={item.img} alt=""></img>
-                      </div>
-                      <div id="food-info">
-                        <div>{item.name}</div>
-                        <div>Calories: {item.cal}</div>
-                        <div>Protein: {item.protein}</div>
-                        <div>Carbs: {item.carbs}</div>
-                        <div>Sugar: {item.sugar}</div>
-                      </div>
-                    </Card>
-                  )
-                })}
-                <div id="add">
-                  <img
-                    src="https://img.icons8.com/?size=1x&id=110229&format=png"
-                    alt=""
-                  ></img>
-                </div>
-              </div>
-              <div id="macro">
-                <div>
-                  Total Calories :{' '}
-                  {/* Add here the total calories for breakfast*/}
-                </div>
-                <div>
-                  Total Protein :{' '}
-                  {/* Add here the total protein for breakfast*/}
-                </div>
-                <div>
-                  Total Carbs : {/* Add here the total carbs for breakfast*/}
-                </div>
-                <div>
-                  Total Sugar : {/* Add here the total sugar for breakfast*/}
-                </div>
-              </div>
-            </div>
-            <hr
-              style={{
-                background: 'lime',
-                color: 'lime',
-                borderColor: 'lime',
-                height: '3px',
-                width: '60vw',
-                marginLeft: '15%',
-              }}
-            />
-            <div className="meals" id="snack">
-              <div id="lab">Snack :</div>
-              <div className="cards">
-                {breakfastItems.map((item) => {
-                  return (
-                    <Card>
-                      <div id="food-img">
-                        <img src={item.img} alt=""></img>
-                      </div>
-                      <div id="food-info">
-                        <div>{item.name}</div>
-                        <div>Calories: {item.cal}</div>
-                        <div>Protein: {item.protein}</div>
-                        <div>Carbs: {item.carbs}</div>
-                        <div>Sugar: {item.sugar}</div>
-                      </div>
-                    </Card>
-                  )
-                })}
-                <div id="add">
-                  <img
-                    src="https://img.icons8.com/?size=1x&id=110229&format=png"
-                    alt=""
-                  ></img>
-                </div>
-              </div>
-              <div id="macro">
-                <div>
-                  Total Calories :{' '}
-                  {/* Add here the total calories for breakfast*/}
-                </div>
-                <div>
-                  Total Protein :{' '}
-                  {/* Add here the total protein for breakfast*/}
-                </div>
-                <div>
-                  Total Carbs : {/* Add here the total carbs for breakfast*/}
-                </div>
-                <div>
-                  Total Sugar : {/* Add here the total sugar for breakfast*/}
-                </div>
-              </div>
-            </div>
-            <hr
-              style={{
-                background: 'lime',
-                color: 'lime',
-                borderColor: 'lime',
-                height: '3px',
-                width: '60vw',
-                marginLeft: '15%',
-              }}
-            />
-            <div className="meals" id="dinner">
-              <div id="lab">Dinner :</div>
-              <div className="cards">
-                {breakfastItems.map((item) => {
-                  return (
-                    <Card>
-                      <div id="food-img">
-                        <img src={item.img} alt=""></img>
-                      </div>
-                      <div id="food-info">
-                        <div>{item.name}</div>
-                        <div>Calories: {item.cal}</div>
-                        <div>Protein: {item.protein}</div>
-                        <div>Carbs: {item.carbs}</div>
-                        <div>Sugar: {item.sugar}</div>
-                      </div>
-                    </Card>
-                  )
-                })}
-                <div id="add">
-                  <img
-                    src="https://img.icons8.com/?size=1x&id=110229&format=png"
-                    alt=""
-                  ></img>
-                </div>
-              </div>
-              <div id="macro">
-                <div>
-                  Total Calories :{' '}
-                  {/* Add here the total calories for breakfast*/}
-                </div>
-                <div>
-                  Total Protein :{' '}
-                  {/* Add here the total protein for breakfast*/}
-                </div>
-                <div>
-                  Total Carbs : {/* Add here the total carbs for breakfast*/}
-                </div>
-                <div>
-                  Total Sugar : {/* Add here the total sugar for breakfast*/}
-                </div>
-              </div>
-            </div>
+                    </div>
+                    <hr
+                      style={{
+                        background: 'lime',
+                        color: 'lime',
+                        borderColor: 'lime',
+                        height: '3px',
+                        width: '60vw',
+                        marginLeft: '15%',
+                      }}
+                    />
+                  </>
+                )
+              })
+            ) : (
+              <div>{console.log(user)}Loading...</div>
+            )}
           </div>
         </div>
       </Main>
