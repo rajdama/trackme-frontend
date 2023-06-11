@@ -2,7 +2,6 @@ import { apiAxiosInstance, serverAxiosInstance } from '../helpers/axios'
 import { user_constants } from './constants'
 
 export const foodList = (foodTitle) => {
-  console.log('searching....')
   return async (dispatch) => {
     dispatch({
       type: user_constants.FOOD_LIST_REQUEST,
@@ -51,7 +50,6 @@ export const mealPlanExists = (userId) => {
 }
 
 export const createMealPlan = (food, period, userId) => {
-  console.log('searching....')
   return async (dispatch) => {
     dispatch({
       type: user_constants.CREATE_MEAL_PLAN_REQUEST,
@@ -65,7 +63,7 @@ export const createMealPlan = (food, period, userId) => {
     if (res.status === 200) {
       dispatch({
         type: user_constants.CREATE_MEAL_PLAN_SUCCESS,
-        payload: { message: 'Meal Plan Create' },
+        payload: { message: 'Meal Plan Created' },
       })
     } else {
       dispatch({
@@ -87,10 +85,11 @@ export const updateMealPlan = (food, period, userId) => {
       userId,
     })
     console.log(res)
+    const parsedMealPlan = JSON.parse(res.data.mealPlan)
     if (res.status === 200) {
       dispatch({
         type: user_constants.UPDATE_MEAL_PLAN_SUCCESS,
-        payload: { message: 'Meal Plan Create' },
+        payload: { mealPlan: parsedMealPlan },
       })
     } else {
       dispatch({
@@ -113,7 +112,7 @@ export const getMealPlan = (userId) => {
     if (res.status === 200) {
       dispatch({
         type: user_constants.GET_MEAL_PLAN_SUCCESS,
-        payload: { message: res.data },
+        payload: { mealPlan: res.data },
       })
     } else {
       dispatch({

@@ -4,6 +4,7 @@ const initState = {
   error: null,
   message: '',
   exists: false,
+  mealPlan: [],
   selectedFood: {},
   loading: false,
   reload: true,
@@ -60,7 +61,54 @@ export default function user_reducer(state = initState, action) {
       state = {
         ...state,
         loading: false,
-        message: action.payload.message,
+        mealPlan: action.payload.mealPlan,
+      }
+      break
+
+    case user_constants.CREATE_MEAL_PLAN_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.CREATE_MEAL_PLAN_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.CREATE_MEAL_PLAN_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
+
+    case user_constants.UPDATE_MEAL_PLAN_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.UPDATE_MEAL_PLAN_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        mealPlan: action.payload.mealPlan,
+      }
+      break
+    case user_constants.UPDATE_MEAL_PLAN_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
       }
       break
     default:
