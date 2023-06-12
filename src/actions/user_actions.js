@@ -31,13 +31,14 @@ export const foodList = (foodTitle) => {
   }
 }
 
-export const mealPlanExists = (userId) => {
+export const mealPlanExists = (userId, currentDate) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.MEAL_PLAN_EXISTS_REQUEST,
     })
     const res = await serverAxiosInstance.post(`/mealPlanExists`, {
       userId,
+      date: currentDate,
     })
 
     if (res.status === 200) {
@@ -54,7 +55,7 @@ export const mealPlanExists = (userId) => {
   }
 }
 
-export const createMealPlan = (food, period, userId) => {
+export const createMealPlan = (food, period, userId, currentDate) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.CREATE_MEAL_PLAN_REQUEST,
@@ -63,6 +64,7 @@ export const createMealPlan = (food, period, userId) => {
       food,
       period,
       userId,
+      date: currentDate,
     })
     console.log(res)
     if (res.status === 200) {
@@ -79,7 +81,7 @@ export const createMealPlan = (food, period, userId) => {
   }
 }
 
-export const updateMealPlan = (food, period, userId) => {
+export const updateMealPlan = (food, period, userId, currentDate) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.UPDATE_MEAL_PLAN_REQUEST,
@@ -88,6 +90,7 @@ export const updateMealPlan = (food, period, userId) => {
       food,
       period,
       userId,
+      date: currentDate,
     })
     console.log(res)
     const parsedMealPlan = JSON.parse(res.data.mealPlan)
@@ -105,14 +108,16 @@ export const updateMealPlan = (food, period, userId) => {
   }
 }
 
-export const getMealPlan = (userId) => {
+export const getMealPlan = (userId, currentDate) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.GET_MEAL_PLAN_REQUEST,
     })
     const res = await serverAxiosInstance.post(`/getMealPlan`, {
       userId,
+      date: currentDate,
     })
+    console.log(res)
 
     if (res.status === 200) {
       dispatch({
@@ -173,7 +178,7 @@ export const getExcerciseCalories = (excercise, duration) => {
   }
 }
 
-export const createExcercisePlan = (excercise, userId) => {
+export const createExcercisePlan = (excercise, userId, currentDate) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.CREATE_EXCERCISE_PLAN_REQUEST,
@@ -181,6 +186,7 @@ export const createExcercisePlan = (excercise, userId) => {
     const res = await serverAxiosInstance.post('/createExcercisePlan', {
       excercise,
       userId,
+      date: currentDate,
     })
 
     console.log(res.data)
@@ -199,13 +205,14 @@ export const createExcercisePlan = (excercise, userId) => {
   }
 }
 
-export const getExcercisePlan = (userId) => {
+export const getExcercisePlan = (userId, currentDate) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.GET_EXCERCISE_PLAN_REQUEST,
     })
     const res = await serverAxiosInstance.post(`/getExcercisePlan`, {
       userId,
+      date: currentDate,
     })
     console.log(res.data)
     if (res.status === 200) {
@@ -222,13 +229,14 @@ export const getExcercisePlan = (userId) => {
   }
 }
 
-export const excercisePlanExists = (userId) => {
+export const excercisePlanExists = (userId, currentDate) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.EXCERCISE_PLAN_EXISTS_REQUEST,
     })
     const res = await serverAxiosInstance.post(`/excercisePlanExist`, {
       userId,
+      date: currentDate,
     })
 
     if (res.status === 200) {
@@ -245,7 +253,7 @@ export const excercisePlanExists = (userId) => {
   }
 }
 
-export const updateExcercisePlan = (excercise, userId) => {
+export const updateExcercisePlan = (excercise, userId, currentDate) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.UPDATE_EXCERCISE_PLAN_REQUEST,
@@ -253,6 +261,7 @@ export const updateExcercisePlan = (excercise, userId) => {
     const res = await serverAxiosInstance.post(`/updateExcercisePlan`, {
       excercise,
       userId,
+      date: currentDate,
     })
     console.log(res.data)
     if (res.status === 200) {

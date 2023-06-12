@@ -17,6 +17,19 @@ import 'react-circular-progressbar/dist/styles.css'
 
 function Mealplanner() {
   let nutrients = [{}, {}, {}, {}]
+  const date = new Date()
+  let currentDate = `${date.getDate()}-${
+    date.getMonth() + 1
+  }-${date.getFullYear()}`
+  const weekday = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ]
 
   const [period, setperiod] = useState(0)
 
@@ -32,8 +45,8 @@ function Mealplanner() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(mealPlanExists(auth.user.$id))
-    dispatch(getMealPlan(auth.user.$id))
+    dispatch(mealPlanExists(auth.user.$id, currentDate))
+    dispatch(getMealPlan(auth.user.$id, currentDate))
 
     if (user.mealPlan.length === 0 && user.exists) {
       setTimeout(() => {
@@ -61,12 +74,12 @@ function Mealplanner() {
 
   const handleOnSave = () => {
     if (user.exists) {
-      dispatch(updateMealPlan(selectedFood, period, auth.user.$id))
+      dispatch(updateMealPlan(selectedFood, period, auth.user.$id, currentDate))
     } else {
-      dispatch(createMealPlan(selectedFood, period, auth.user.$id))
-      dispatch(mealPlanExists(auth.user.$id))
+      dispatch(createMealPlan(selectedFood, period, auth.user.$id, currentDate))
+      dispatch(mealPlanExists(auth.user.$id, currentDate))
     }
-    dispatch(getMealPlan(auth.user.$id))
+    dispatch(getMealPlan(auth.user.$id, currentDate))
     setMealPlan([...user.mealPlan])
   }
 
@@ -98,17 +111,6 @@ function Mealplanner() {
     })
   }
 
-  // code for the date part in the up-left id div
-  const date = new Date()
-  const weekday = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ]
   return (
     <Page>
       <Navbar />
@@ -176,7 +178,7 @@ function Mealplanner() {
             <div id="date">
               <div>{weekday[date.getDay()]}</div>
               <div>
-                {date.getDate()}-{date.getMonth()}-{date.getFullYear()}
+                {date.getDate()}-{date.getMonth() + 1}-{date.getFullYear()}
               </div>
             </div>
           </div>

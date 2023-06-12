@@ -14,6 +14,19 @@ import {
 } from '../actions/user_actions'
 import { useEffect } from 'react'
 function ExerciseTrack() {
+  const date = new Date()
+  let currentDate = `${date.getDate()}-${
+    date.getMonth() + 1
+  }-${date.getFullYear()}`
+  const weekday = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ]
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const auth = useSelector((state) => state.auth)
@@ -24,8 +37,8 @@ function ExerciseTrack() {
 
   const [exercise, setExercise] = useState('')
   useEffect(() => {
-    dispatch(getExcercisePlan(auth.user.$id))
-    dispatch(excercisePlanExists(auth.user.$id))
+    dispatch(getExcercisePlan(auth.user.$id, currentDate))
+    dispatch(excercisePlanExists(auth.user.$id, currentDate))
     // setExercises([...user.excercisePlan])
   }, [])
 
@@ -42,7 +55,8 @@ function ExerciseTrack() {
               duration: user?.excerciseInfo?.exercises[0]?.duration_min,
               image: user.image.webformatURL,
             },
-            auth.user.$id
+            auth.user.$id,
+            currentDate
           )
         )
       } else {
@@ -54,10 +68,11 @@ function ExerciseTrack() {
               duration: user.excerciseInfo.exercises[0].duration_min,
               image: user.image.webformatURL,
             },
-            auth.user.$id
+            auth.user.$id,
+            currentDate
           )
         )
-        dispatch(excercisePlanExists(auth.user.$id))
+        dispatch(excercisePlanExists(auth.user.$id, currentDate))
       }
     }
     setAddExcercise(false)
@@ -67,16 +82,7 @@ function ExerciseTrack() {
     setExercises([...user.excercisePlan])
   }, [user.excercisePlan])
   // code for the date part in the up-left id div
-  const date = new Date()
-  const weekday = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ]
+
   return (
     <Page>
       <Main>
@@ -88,7 +94,7 @@ function ExerciseTrack() {
               <div id="date">
                 <div>{weekday[date.getDay()]}</div>
                 <div>
-                  {date.getDate()}-{date.getMonth()}-{date.getFullYear()}
+                  {date.getDate()}-{date.getMonth() + 1}-{date.getFullYear()}
                 </div>
               </div>
             </div>
