@@ -32,17 +32,13 @@ function Mealplanner() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getMealPlan(auth.user.$id))
     dispatch(mealPlanExists(auth.user.$id))
-    console.log(user.mealPlan)
+    dispatch(getMealPlan(auth.user.$id))
 
     if (user.mealPlan.length === 0 && user.exists) {
       setTimeout(() => {
         window.location.reload()
       }, 2000)
-    } else {
-      console.log(user.mealPlan)
-      setMealPlan([...user.mealPlan])
     }
   }, [])
 
@@ -68,6 +64,7 @@ function Mealplanner() {
       dispatch(updateMealPlan(selectedFood, period, auth.user.$id))
     } else {
       dispatch(createMealPlan(selectedFood, period, auth.user.$id))
+      dispatch(mealPlanExists(auth.user.$id))
     }
     dispatch(getMealPlan(auth.user.$id))
     setMealPlan([...user.mealPlan])
@@ -82,7 +79,9 @@ function Mealplanner() {
 
   const user = useSelector((state) => state.user)
   useEffect(() => {
-    setMealPlan([...user.mealPlan])
+    if (user.mealPlan.length != 0) {
+      setMealPlan([...user.mealPlan])
+    }
   }, [user.mealPlan])
 
   if (user.selectedFood?.hits) {
@@ -206,6 +205,7 @@ function Mealplanner() {
         <div id="lower">
           <div id="container">
             {mealPlan.map((meal, index) => {
+              console.log(1)
               nutrients[index].calorie = 0
               nutrients[index].sugar = 0
               nutrients[index].carbs = 0
@@ -221,7 +221,7 @@ function Mealplanner() {
                       className="cards"
                     >
                       {meal.length !== 0 &&
-                        meal.map((item, index2) => {
+                        meal.map((item) => {
                           nutrients[index].calorie =
                             nutrients[index].calorie + item.calories
 

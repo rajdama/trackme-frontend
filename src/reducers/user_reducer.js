@@ -4,7 +4,11 @@ const initState = {
   error: null,
   message: '',
   exists: false,
+  excercisePlanExist: false,
   mealPlan: [],
+  excercisePlan: [],
+  excerciseInfo: {},
+  image: {},
   selectedFood: {},
   loading: false,
   reload: true,
@@ -104,6 +108,147 @@ export default function user_reducer(state = initState, action) {
       }
       break
     case user_constants.UPDATE_MEAL_PLAN_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
+
+    case user_constants.GET_EXCERCISE_IMAGE_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.GET_EXCERCISE_IMAGE_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        image: action.payload.images,
+      }
+      break
+    case user_constants.GET_EXCERCISE_IMAGE_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
+    case user_constants.GET_EXCERCISE_CALORIES_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.GET_EXCERCISE_CALORIES_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        excerciseInfo: action.payload.excerciseInfo,
+      }
+      break
+    case user_constants.GET_EXCERCISE_CALORIES_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
+
+    case user_constants.CREATE_EXCERCISE_PLAN_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.CREATE_EXCERCISE_PLAN_SUCCESS:
+      console.log(action.payload.excercisePlan)
+      state = {
+        ...state,
+        loading: false,
+        excercisePlan: action.payload.excercisePlan,
+      }
+      break
+    case user_constants.CREATE_EXCERCISE_PLAN_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
+
+    case user_constants.GET_EXCERCISE_PLAN_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.GET_EXCERCISE_PLAN_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        excercisePlan: action.payload.excercisePlan,
+      }
+      break
+    case user_constants.GET_EXCERCISE_PLAN_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
+    case user_constants.EXCERCISE_PLAN_EXISTS_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.EXCERCISE_PLAN_EXISTS_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        excercisePlanExist: action.payload.excercisePlanExist,
+      }
+      break
+    case user_constants.EXCERCISE_PLAN_EXISTS_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
+    case user_constants.UPDATE_EXCERCISE_PLAN_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.UPDATE_EXCERCISE_PLAN_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        excercisePlan: action.payload.excercisePlan,
+      }
+      break
+    case user_constants.UPDATE_EXCERCISE_PLAN_FAILURE:
       console.log(action)
       state = {
         ...state,
