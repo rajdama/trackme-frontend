@@ -2,12 +2,15 @@ import React from 'react'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { useSelector, useDispatch } from 'react-redux'
 import 'react-circular-progressbar/dist/styles.css'
-import { getExcercisePlan, getMealPlan } from '../actions/user_actions'
+import {
+  getCurrentMonthPlan,
+  getExcercisePlan,
+  getMealPlan,
+} from '../actions/user_actions'
 import { useEffect } from 'react'
 import { useState } from 'react'
 
-function Display({ currentDate }) {
-  console.log(currentDate)
+function Display({ currentDate, currentMonth, token }) {
   const user = useSelector((state) => state.user)
   const auth = useSelector((state) => state.auth)
   const [mealPlan, setMealPlan] = useState([])
@@ -16,8 +19,9 @@ function Display({ currentDate }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getExcercisePlan(auth.user.$id, currentDate))
-    dispatch(getMealPlan(auth.user.$id, currentDate))
+    dispatch(getExcercisePlan(auth.user.$id, currentDate, token))
+    dispatch(getMealPlan(auth.user.$id, currentDate, token))
+    dispatch(getCurrentMonthPlan(currentMonth, auth.user.$id))
   }, [currentDate])
 
   useEffect(() => {
@@ -27,6 +31,11 @@ function Display({ currentDate }) {
   useEffect(() => {
     setExcercisePlan([...user.excercisePlan])
   }, [user.excercisePlan])
+
+  useEffect(() => {
+    dispatch(getCurrentMonthPlan(currentMonth, auth.user.$id))
+  }, [currentMonth])
+
   return (
     <div id="Disp">
       <div id="upper">

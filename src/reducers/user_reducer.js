@@ -7,6 +7,7 @@ const initState = {
   excercisePlanExist: false,
   mealPlan: [],
   excercisePlan: [],
+  currentMonthPlan: [],
   excerciseInfo: {},
   image: {},
   selectedFood: {},
@@ -249,6 +250,29 @@ export default function user_reducer(state = initState, action) {
       }
       break
     case user_constants.UPDATE_EXCERCISE_PLAN_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
+    case user_constants.GET_CURRENT_MONTH_PLAN_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.GET_CURRENT_MONTH_PLAN_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        currentMonthPlan: action.payload.currentMonthPlan,
+      }
+      break
+    case user_constants.GET_CURRENT_MONTH_PLAN_FAILURE:
       console.log(action)
       state = {
         ...state,

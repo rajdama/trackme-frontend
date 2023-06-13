@@ -5,6 +5,7 @@ import Privateroute from './components/common/PrivateRoute'
 import Home from './components/Home'
 import Mealplanner from './components/MealPlanner'
 import ExerciseTrack from './components/ExerciseTrack'
+import ChatBot from './components/ChatBot'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           path="/mealPlanner"
           element={<Privateroute component={Mealplanner} />}
         />
+        <Route path="/chatbot" element={<Privateroute component={ChatBot} />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/signin" element={<SignInForm />} />
       </Routes>

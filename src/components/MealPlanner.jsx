@@ -15,7 +15,7 @@ import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import '../css/mealPlanner.css'
 import 'react-circular-progressbar/dist/styles.css'
 
-function Mealplanner() {
+function Mealplanner({ token }) {
   let nutrients = [{}, {}, {}, {}]
   const date = new Date()
   let currentDate = `${date.getDate()}-${
@@ -45,8 +45,8 @@ function Mealplanner() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(mealPlanExists(auth.user.$id, currentDate))
-    dispatch(getMealPlan(auth.user.$id, currentDate))
+    dispatch(mealPlanExists(auth.user.$id, currentDate, token))
+    dispatch(getMealPlan(auth.user.$id, currentDate, token))
 
     if (user.mealPlan.length === 0 && user.exists) {
       setTimeout(() => {
@@ -73,13 +73,13 @@ function Mealplanner() {
   }
 
   const handleOnSave = () => {
-    if (user.exists) {
+    if (false) {
       dispatch(updateMealPlan(selectedFood, period, auth.user.$id, currentDate))
     } else {
       dispatch(createMealPlan(selectedFood, period, auth.user.$id, currentDate))
-      dispatch(mealPlanExists(auth.user.$id, currentDate))
+      dispatch(mealPlanExists(auth.user.$id, currentDate, token))
     }
-    dispatch(getMealPlan(auth.user.$id, currentDate))
+    dispatch(getMealPlan(auth.user.$id, currentDate, token))
     setMealPlan([...user.mealPlan])
   }
 
@@ -92,7 +92,7 @@ function Mealplanner() {
 
   const user = useSelector((state) => state.user)
   useEffect(() => {
-    if (user.mealPlan.length != 0) {
+    if (user.mealPlan.length !== 0) {
       setMealPlan([...user.mealPlan])
     }
   }, [user.mealPlan])
@@ -207,7 +207,6 @@ function Mealplanner() {
         <div id="lower">
           <div id="container">
             {mealPlan.map((meal, index) => {
-              console.log(1)
               nutrients[index].calorie = 0
               nutrients[index].sugar = 0
               nutrients[index].carbs = 0

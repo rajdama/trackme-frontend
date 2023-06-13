@@ -5,6 +5,13 @@ import {
   serverAxiosInstance,
 } from '../helpers/axios'
 import { user_constants } from './constants'
+let headers = ''
+const setHeaders = (token) => {
+  let setHeader = {
+    headers: { authorization: token ? `Bearer ${token}` : '' },
+  }
+  return setHeader
+}
 
 export const foodList = (foodTitle) => {
   return async (dispatch) => {
@@ -31,103 +38,116 @@ export const foodList = (foodTitle) => {
   }
 }
 
-export const mealPlanExists = (userId, currentDate) => {
+export const mealPlanExists = (userId, currentDate, token) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.MEAL_PLAN_EXISTS_REQUEST,
     })
-    const res = await serverAxiosInstance.post(`/mealPlanExists`, {
-      userId,
-      date: currentDate,
-    })
-
-    if (res.status === 200) {
+    try {
+      const res = await serverAxiosInstance.post(
+        `/mealPlanExists`,
+        {
+          userId,
+          date: currentDate,
+        },
+        setHeaders(token)
+      )
       dispatch({
         type: user_constants.MEAL_PLAN_EXISTS_SUCCESS,
         payload: { exists: res.data },
       })
-    } else {
+    } catch (error) {
       dispatch({
         type: user_constants.MEAL_PLAN_EXISTS_FAILURE,
-        payload: { error: res.data.error },
+        payload: { error: error.response.data.error },
       })
     }
   }
 }
 
-export const createMealPlan = (food, period, userId, currentDate) => {
+export const createMealPlan = (food, period, userId, currentDate, token) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.CREATE_MEAL_PLAN_REQUEST,
     })
-    const res = await serverAxiosInstance.post(`/createMealPlan`, {
-      food,
-      period,
-      userId,
-      date: currentDate,
-    })
-    console.log(res)
-    if (res.status === 200) {
+    try {
+      const res = await serverAxiosInstance.post(
+        `/createMealPlan`,
+        {
+          food,
+          period,
+          userId,
+          date: currentDate,
+        },
+        setHeaders(token)
+      )
       dispatch({
         type: user_constants.CREATE_MEAL_PLAN_SUCCESS,
         payload: { message: 'Meal Plan Created' },
       })
-    } else {
+    } catch (error) {
       dispatch({
         type: user_constants.CREATE_MEAL_PLAN_FAILURE,
-        payload: { error: res.data.error },
+        payload: { error: error.response.data.error },
       })
     }
   }
 }
 
-export const updateMealPlan = (food, period, userId, currentDate) => {
+export const updateMealPlan = (food, period, userId, currentDate, token) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.UPDATE_MEAL_PLAN_REQUEST,
     })
-    const res = await serverAxiosInstance.post(`/updateMealPlan`, {
-      food,
-      period,
-      userId,
-      date: currentDate,
-    })
-    console.log(res)
-    const parsedMealPlan = JSON.parse(res.data.mealPlan)
-    if (res.status === 200) {
+    try {
+      const res = await serverAxiosInstance.post(
+        `/updateMealPlan`,
+        {
+          food,
+          period,
+          userId,
+          date: currentDate,
+        },
+        { headers }
+      )
+      const parsedMealPlan = JSON.parse(res.data.mealPlan)
       dispatch({
         type: user_constants.UPDATE_MEAL_PLAN_SUCCESS,
         payload: { mealPlan: parsedMealPlan },
       })
-    } else {
+    } catch (error) {
       dispatch({
         type: user_constants.UPDATE_MEAL_PLAN_FAILURE,
-        payload: { error: res.data.error },
+        payload: { error: error.response.data.error },
       })
     }
   }
 }
 
-export const getMealPlan = (userId, currentDate) => {
+export const getMealPlan = (userId, currentDate, token) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.GET_MEAL_PLAN_REQUEST,
     })
-    const res = await serverAxiosInstance.post(`/getMealPlan`, {
-      userId,
-      date: currentDate,
-    })
-    console.log(res)
 
-    if (res.status === 200) {
+    try {
+      let res = await serverAxiosInstance.post(
+        `/getMealPlan`,
+        {
+          userId,
+          date: currentDate,
+        },
+        setHeaders(token)
+      )
       dispatch({
         type: user_constants.GET_MEAL_PLAN_SUCCESS,
         payload: { mealPlan: res.data },
       })
-    } else {
+    } catch (error) {
+      console.log(error)
       dispatch({
         type: user_constants.GET_MEAL_PLAN_FAILURE,
-        payload: { error: res.data.error },
+        payload: { error: error.response.data.error },
       })
     }
   }
@@ -178,101 +198,142 @@ export const getExcerciseCalories = (excercise, duration) => {
   }
 }
 
-export const createExcercisePlan = (excercise, userId, currentDate) => {
+export const createExcercisePlan = (excercise, userId, currentDate, token) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.CREATE_EXCERCISE_PLAN_REQUEST,
     })
-    const res = await serverAxiosInstance.post('/createExcercisePlan', {
-      excercise,
-      userId,
-      date: currentDate,
-    })
+    try {
+      const res = await serverAxiosInstance.post(
+        '/createExcercisePlan',
+        {
+          excercise,
+          userId,
+          date: currentDate,
+        },
+        setHeaders(token)
+      )
 
-    console.log(res.data)
-
-    if (res.status === 200) {
       dispatch({
         type: user_constants.CREATE_EXCERCISE_PLAN_SUCCESS,
         payload: { excercisePlan: res.data },
       })
-    } else {
+    } catch (error) {
       dispatch({
         type: user_constants.CREATE_EXCERCISE_PLAN_FAILURE,
-        payload: { error: res.data.error },
+        payload: { error: error.response.data.error },
       })
     }
   }
 }
 
-export const getExcercisePlan = (userId, currentDate) => {
+export const getExcercisePlan = (userId, currentDate, token) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.GET_EXCERCISE_PLAN_REQUEST,
     })
-    const res = await serverAxiosInstance.post(`/getExcercisePlan`, {
-      userId,
-      date: currentDate,
-    })
-    console.log(res.data)
-    if (res.status === 200) {
+
+    try {
+      const res = await serverAxiosInstance.post(
+        `/getExcercisePlan`,
+        {
+          userId,
+          date: currentDate,
+        },
+        setHeaders(token)
+      )
       dispatch({
         type: user_constants.GET_EXCERCISE_PLAN_SUCCESS,
         payload: { excercisePlan: res.data },
       })
-    } else {
+    } catch (error) {
       dispatch({
         type: user_constants.GET_EXCERCISE_PLAN_FAILURE,
-        payload: { error: res.data.error },
+        payload: { error: error.response.data.error },
       })
     }
   }
 }
 
-export const excercisePlanExists = (userId, currentDate) => {
+export const excercisePlanExists = (userId, currentDate, token) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.EXCERCISE_PLAN_EXISTS_REQUEST,
     })
-    const res = await serverAxiosInstance.post(`/excercisePlanExist`, {
-      userId,
-      date: currentDate,
-    })
 
-    if (res.status === 200) {
+    try {
+      const res = await serverAxiosInstance.post(
+        `/excercisePlanExist`,
+        {
+          userId,
+          date: currentDate,
+        },
+        setHeaders(token)
+      )
       dispatch({
         type: user_constants.EXCERCISE_PLAN_EXISTS_SUCCESS,
         payload: { excercisePlanExist: res.data },
       })
-    } else {
+    } catch (error) {
       dispatch({
         type: user_constants.EXCERCISE_PLAN_EXISTS_FAILURE,
-        payload: { error: res.data.error },
+        payload: { error: error.response.data.error },
       })
     }
   }
 }
 
-export const updateExcercisePlan = (excercise, userId, currentDate) => {
+export const updateExcercisePlan = (excercise, userId, currentDate, token) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.UPDATE_EXCERCISE_PLAN_REQUEST,
     })
-    const res = await serverAxiosInstance.post(`/updateExcercisePlan`, {
-      excercise,
-      userId,
-      date: currentDate,
-    })
-    console.log(res.data)
-    if (res.status === 200) {
+    try {
+      const res = await serverAxiosInstance.post(
+        `/updateExcercisePlan`,
+        {
+          excercise,
+          userId,
+          date: currentDate,
+        },
+        setHeaders(token)
+      )
       dispatch({
         type: user_constants.UPDATE_EXCERCISE_PLAN_SUCCESS,
         payload: { excercisePlan: res.data },
       })
-    } else {
+    } catch (error) {
       dispatch({
         type: user_constants.UPDATE_EXCERCISE_PLAN_FAILURE,
-        payload: { error: res.data.error },
+        payload: { error: error.response.data.error },
+      })
+    }
+  }
+}
+
+export const getCurrentMonthPlan = (month, userId, token) => {
+  return async (dispatch) => {
+    dispatch({
+      type: user_constants.GET_CURRENT_MONTH_PLAN_REQUEST,
+    })
+
+    try {
+      const res = await serverAxiosInstance.post(
+        `/getCurrentMonthPlan`,
+        {
+          userId,
+          month,
+        },
+        setHeaders(token)
+      )
+      dispatch({
+        type: user_constants.GET_CURRENT_MONTH_PLAN_SUCCESS,
+        payload: { currentMonthPlan: res.data },
+      })
+    } catch (error) {
+      dispatch({
+        type: user_constants.GET_CURRENT_MONTH_PLAN_FAILURE,
+        payload: { error: error.response.data.error },
       })
     }
   }
