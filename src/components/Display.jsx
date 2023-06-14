@@ -64,7 +64,7 @@ function Display({ currentDate, currentMonth, token }) {
                 <div className="meals" id={`${periods[p].toLowerCase()}`}>
                   <div id="lab">{periods[p]}</div>
                   <div className="cards">
-                    {meal.length &&
+                    {meal.length != 0 &&
                       meal.map((item, q) => {
                         return (
                           <div key={q} id="Card-home-page">
