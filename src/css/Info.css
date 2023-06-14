@@ -33,7 +33,6 @@
     margin-left:5vw;
     flex-direction: column;
     gap: 10px;
-    max-width: 350px;
     background-color: #fff;
     padding: 20px;
     border-radius: 20px;
@@ -80,20 +79,29 @@
   
   .flex {
     display: flex;
+    flex-direction: row;
     width: 100%;
-    gap: 6px;
+    gap: 10px;
   }
   
+
   .form label {
     position: relative;
   }
   
   .form label .input {
-    width: 100%;
+    width: 95%;
     padding: 10px 10px 20px 10px;
     outline: 0;
     border: 1px solid rgba(105, 105, 105, 0.397);
     border-radius: 10px;
+  }
+  #first-name {
+    width:90%;
+  }
+
+  #last-name {
+    width:90%;
   }
   
   .form label .input + span {
