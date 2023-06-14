@@ -95,7 +95,6 @@ function Info({ token }) {
               ></input>
               <span>Age(in years)</span>
             </label>
-            <button class="submit">Submit</button>
           </form>
         </div>
         <div id="info-low-right">

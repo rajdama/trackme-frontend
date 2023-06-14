@@ -13,7 +13,8 @@ import {
   updateExcercisePlan,
 } from '../actions/user_actions'
 import { useEffect } from 'react'
-function ExerciseTrack() {
+
+function ExerciseTrack({ token }) {
   const date = new Date()
   let currentDate = `${date.getDate()}-${
     date.getMonth() + 1
@@ -37,8 +38,8 @@ function ExerciseTrack() {
 
   const [exercise, setExercise] = useState('')
   useEffect(() => {
-    dispatch(getExcercisePlan(auth.user.$id, currentDate))
-    dispatch(excercisePlanExists(auth.user.$id, currentDate))
+    dispatch(getExcercisePlan(auth.user.$id, currentDate, token))
+    dispatch(excercisePlanExists(auth.user.$id, currentDate, token))
     // setExercises([...user.excercisePlan])
   }, [])
 
@@ -56,32 +57,38 @@ function ExerciseTrack() {
               image: user.image.webformatURL,
             },
             auth.user.$id,
-            currentDate
+            currentDate,
+            token
           )
         )
       } else {
-        dispatch(
-          createExcercisePlan(
-            {
-              name: exercise,
-              calories: user.excerciseInfo.exercises[0].nf_calories,
-              duration: user.excerciseInfo.exercises[0].duration_min,
-              image: user.image.webformatURL,
-            },
-            auth.user.$id,
-            currentDate
+        if (Object.keys(user.excerciseInfo).length !== 0) {
+          dispatch(
+            createExcercisePlan(
+              {
+                name: exercise,
+                calories: user.excerciseInfo.exercises[0].nf_calories,
+                duration: user.excerciseInfo.exercises[0].duration_min,
+                image: user.image.webformatURL,
+              },
+              auth.user.$id,
+              currentDate,
+              token
+            )
           )
-        )
-        dispatch(excercisePlanExists(auth.user.$id, currentDate))
+        }
       }
     }
     setAddExcercise(false)
   }, [user.excerciseInfo, addExcercise])
 
   useEffect(() => {
+    dispatch(excercisePlanExists(auth.user.$id, currentDate, token))
+  }, [user.excercisePlan])
+
+  useEffect(() => {
     setExercises([...user.excercisePlan])
   }, [user.excercisePlan])
-  // code for the date part in the up-left id div
 
   return (
     <Page>

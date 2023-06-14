@@ -12,7 +12,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" exact element={<Privateroute component={Home} />} />
+        <Route path="/home" exact element={<Privateroute component={Home} />} />
         <Route
           path="/excercise"
           exact
