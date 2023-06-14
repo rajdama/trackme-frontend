@@ -21,7 +21,7 @@ function Display({ currentDate, currentMonth, token }) {
   useEffect(() => {
     dispatch(getExcercisePlan(auth.user.$id, currentDate, token))
     dispatch(getMealPlan(auth.user.$id, currentDate, token))
-    dispatch(getCurrentMonthPlan(currentMonth, auth.user.$id))
+    dispatch(getCurrentMonthPlan(currentMonth, auth.user.$id, token))
   }, [currentDate])
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function Display({ currentDate, currentMonth, token }) {
   }, [user.excercisePlan])
 
   useEffect(() => {
-    dispatch(getCurrentMonthPlan(currentMonth, auth.user.$id))
+    dispatch(getCurrentMonthPlan(currentMonth, auth.user.$id, token))
   }, [currentMonth])
 
   return (

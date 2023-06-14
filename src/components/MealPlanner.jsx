@@ -73,18 +73,46 @@ function Mealplanner({ token }) {
   }
 
   const handleOnSave = () => {
-    if (false) {
-      dispatch(updateMealPlan(selectedFood, period, auth.user.$id, currentDate))
+    if (user.exists) {
+      dispatch(
+        updateMealPlan(selectedFood, period, auth.user.$id, currentDate, token)
+      )
     } else {
-      dispatch(createMealPlan(selectedFood, period, auth.user.$id, currentDate))
+      dispatch(
+        createMealPlan(selectedFood, period, auth.user.$id, currentDate, token)
+      )
       dispatch(mealPlanExists(auth.user.$id, currentDate, token))
     }
     dispatch(getMealPlan(auth.user.$id, currentDate, token))
     setMealPlan([...user.mealPlan])
+    setSelectedFood({})
+    closeSearch()
   }
 
   const auth = useSelector((state) => state.auth)
   const handleOnSelect = (item) => {
+    if (user.goal === 1) {
+      //loss
+      if (item.calories > 2000) {
+        item = { ...item, warning: 'Calories are too high' }
+      }
+    }
+    if (user.goal === 2) {
+      //gain
+      if (item.calories < 3000) {
+        item = { ...item, warning: 'Calories are too low' }
+      }
+    }
+    if (user.goal === 3) {
+      //maintain
+      if (item.calories < 500 || item.calories > 2500) {
+        item = {
+          ...item,
+          warning: 'Calories are not in the range for maintaining weight',
+        }
+      }
+    }
+
     setSelectedFood({ ...item })
   }
 
@@ -183,25 +211,32 @@ function Mealplanner({ token }) {
             </div>
           </div>
           <div id="up-right">
-            <div className="progress-track" id="calorie">
-              <div>Calories:</div>
-              <CircularProgressbar
-              // value={calorie / maxcal}
-              // text={`${calorie} / ${maxcal}`}
-              />
-            </div>
-            <div className="progress-track" id="carbs">
-              <div>Carbs:</div>
-              <CircularProgressbar value={66} text={`${66}%`} />
-            </div>
-            <div className="progress-track" id="protein">
-              <div>Protein:</div>
-              <CircularProgressbar value={66} text={`${66}%`} />
-            </div>
-            <div className="progress-track" id="period">
-              <div>Sugar:</div>
-              <CircularProgressbar value={66} text={`${66}%`} />
-            </div>
+            {/* {nutrients.map((period, index) => {
+              period.
+              return (
+                <>
+                  <div className="progress-track" id="calorie">
+                    <div>Calories:</div>
+                    <CircularProgressbar
+                      value={calorie / nutrients.bre}
+                      text={`${calorie} / ${maxcal}`}
+                    />
+                  </div>
+                  <div className="progress-track" id="carbs">
+                    <div>Carbs:</div>
+                    <CircularProgressbar value={66} text={`${66}%`} />
+                  </div>
+                  <div className="progress-track" id="protein">
+                    <div>Protein:</div>
+                    <CircularProgressbar value={66} text={`${66}%`} />
+                  </div>
+                  <div className="progress-track" id="period">
+                    <div>Sugar:</div>
+                    <CircularProgressbar value={66} text={`${66}%`} />
+                  </div>
+                </>
+              )
+            })} */}
           </div>
         </div>
         <div id="lower">

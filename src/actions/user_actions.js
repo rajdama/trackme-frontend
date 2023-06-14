@@ -108,7 +108,7 @@ export const updateMealPlan = (food, period, userId, currentDate, token) => {
           userId,
           date: currentDate,
         },
-        { headers }
+        setHeaders(token)
       )
       const parsedMealPlan = JSON.parse(res.data.mealPlan)
       dispatch({
@@ -334,6 +334,95 @@ export const getCurrentMonthPlan = (month, userId, token) => {
       dispatch({
         type: user_constants.GET_CURRENT_MONTH_PLAN_FAILURE,
         payload: { error: error.response.data.error },
+      })
+    }
+  }
+}
+
+export const addUserGoal = (userId, goal, token) => {
+  return async (dispatch) => {
+    dispatch({
+      type: user_constants.ADD_USER_GOAL_REQUEST,
+    })
+
+    try {
+      const res = await serverAxiosInstance.post(
+        `/addUserGoal`,
+        {
+          userId,
+          goal,
+        },
+        setHeaders(token)
+      )
+      dispatch({
+        type: user_constants.ADD_USER_GOAL_SUCCESS,
+        payload: { goal: res.data.goal },
+      })
+    } catch (error) {
+      dispatch({
+        type: user_constants.ADD_USER_GOAL_FAILURE,
+        payload: { error: error.response.data.error },
+      })
+    }
+  }
+}
+
+export const getUserGoal = (userId, token) => {
+  return async (dispatch) => {
+    dispatch({
+      type: user_constants.GET_USER_GOAL_REQUEST,
+    })
+
+    try {
+      const res = await serverAxiosInstance.post(
+        `/getUserGoal`,
+        {
+          userId,
+        },
+        setHeaders(token)
+      )
+      console.log(res)
+      dispatch({
+        type: user_constants.GET_USER_GOAL_SUCCESS,
+        payload: { goal: res.data.goal },
+      })
+    } catch (error) {
+      dispatch({
+        type: user_constants.GET_USER_GOAL_FAILURE,
+        payload: { error: error.response.data.error },
+      })
+    }
+  }
+}
+
+export const getChatBotMessage = (msg, token) => {
+  return async (dispatch) => {
+    dispatch({
+      type: user_constants.GET_CHAT_BOT_MESSAGE_REQUEST,
+    })
+
+    if (msg !== 0) {
+      try {
+        const res = await serverAxiosInstance.post(
+          `/chatBot`,
+          { msg },
+          setHeaders(token)
+        )
+
+        dispatch({
+          type: user_constants.GET_CHAT_BOT_MESSAGE_SUCCESS,
+          payload: { chatBotMsg: res.data[0].message.content },
+        })
+      } catch (error) {
+        dispatch({
+          type: user_constants.GET_CHAT_BOT_MESSAGE_FAILURE,
+          payload: { error: error.response.data.error },
+        })
+      }
+    } else {
+      dispatch({
+        type: user_constants.GET_CHAT_BOT_MESSAGE_SUCCESS,
+        payload: { chatBotMsg: '' },
       })
     }
   }

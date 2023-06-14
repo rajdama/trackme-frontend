@@ -6,6 +6,7 @@ import Home from './components/Home'
 import Mealplanner from './components/MealPlanner'
 import ExerciseTrack from './components/ExerciseTrack'
 import ChatBot from './components/ChatBot'
+import Info from './components/Info'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           path="/mealPlanner"
           element={<Privateroute component={Mealplanner} />}
         />
+        <Route path="/info" element={<Privateroute component={Info} />} />
         <Route path="/chatbot" element={<Privateroute component={ChatBot} />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/signin" element={<SignInForm />} />

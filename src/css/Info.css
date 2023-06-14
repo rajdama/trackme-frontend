@@ -1,0 +1,211 @@
+#Info-Page{
+    height: 100vh; width: 100vw;
+    display: flex; flex-direction: column;
+    color: black;
+}
+#upper-info-page{
+    height: 15vh; width:100vw;
+    background-color:rgba(253, 251, 249, 1);
+    display: flex; flex-direction: row; align-items: center; justify-content: flex-start;
+}
+#lower-info-page{
+    height: 85vh; width: 100vw;
+    display: flex; flex-direction: row;
+    background-color: rgba(253, 251, 249, 1);
+}
+#info-low-left{
+    height: 85vh; width: 50vw;
+    display: flex; flex-direction: row;
+    align-items: center; justify-content: flex-end;
+}
+#info-low-right{
+    height: 85vh; width: 50vw;
+    display: flex; flex-direction: row;
+    align-items: center; justify-content: flex-start;
+}
+.logo-website{
+    height: 15vh; width: 15vh;
+    margin-left:4vw;
+    margin-top:4vh;
+}
+.form {
+    display: flex;
+    margin-left:5vw;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    transform: scale(1.1);
+  }
+  
+  .title {
+    font-size: 28px;
+    color: royalblue;
+    font-weight: 600;
+    letter-spacing: -1px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+  }
+  
+  .title::before,.title::after {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 0px;
+    background-color: lightgreen;
+  }
+  
+  .title::before {
+    width: 18px;
+    height: 18px;
+    background-color: lightgreen;
+  }
+  
+  .title::after {
+    width: 18px;
+    height: 18px;
+    animation: pulse 1s linear infinite;
+  }
+  
+  .message{
+    color: rgba(88, 87, 87, 0.822);
+    font-size: 14px;
+  }
+  
+  .flex {
+    display: flex;
+    width: 100%;
+    gap: 6px;
+  }
+  
+  .form label {
+    position: relative;
+  }
+  
+  .form label .input {
+    width: 100%;
+    padding: 10px 10px 20px 10px;
+    outline: 0;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+    border-radius: 10px;
+  }
+  
+  .form label .input + span {
+    position: absolute;
+    left: 10px;
+    top: 15px;
+    color: grey;
+    font-size: 0.9em;
+    cursor: text;
+    transition: 0.3s ease;
+  }
+  
+  .form label .input:placeholder-shown + span {
+    top: 15px;
+    font-size: 0.9em;
+  }
+  
+  .form label .input:focus + span,.form label .input:valid + span {
+    top: 30px;
+    font-size: 0.7em;
+    font-weight: 600;
+  }
+  
+  .form label .input:valid + span {
+    color: black;
+  }
+  
+  .submit {
+    border: none;
+    outline: none;
+    background-color: royalblue;
+    padding: 10px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    transform: .3s ease;
+  }
+  
+  .submit:hover {
+    background-color: rgb(56, 90, 194);
+  }
+  
+  @keyframes pulse {
+    from {
+      transform: scale(0.9);
+      opacity: 1;
+    }
+  
+    to {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+  }
+  .fit-btn {
+    color: purple;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid purple;
+    padding: 10px 20px;
+    font-size: 17px;
+    height: 6vh;
+    width: 80%;
+    font-weight: bold;
+    background: transparent;
+    position: relative;
+    transition: all 1s;
+    overflow: hidden;
+    margin-top: 3vh;
+  }
+  
+  .fit-btn:hover {
+    color: white;
+  }
+  
+  .fit-btn::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    top: 0;
+    left: -40px;
+    transform: skewX(45deg);
+    background-color: purple;
+    z-index: -1;
+    transition: all 1s;
+  }
+  
+  .fit-btn:hover::before {
+    width: 160%;
+  }
+  @media (max-width: 500px) {
+    #lower-info-page{
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        width: 100vw !important;
+    }
+    #upper-info-page{
+        height: 10vh !important;
+    }
+    #info-low-left{
+        width: 100vw;
+        height: auto !important;
+        justify-content: center;
+        margin-top:2vh;
+        margin-bottom: 2vh;
+    }
+    #info-low-right{
+        width: 100vw;
+        height: auto !important;
+    }
+    .form{
+        width:90%; transform: scale(1);
+    }
+  }

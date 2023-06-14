@@ -9,6 +9,8 @@ const initState = {
   excercisePlan: [],
   currentMonthPlan: [],
   excerciseInfo: {},
+  goal: null,
+  chatBotMsg: '',
   image: {},
   selectedFood: {},
   loading: false,
@@ -273,6 +275,75 @@ export default function user_reducer(state = initState, action) {
       }
       break
     case user_constants.GET_CURRENT_MONTH_PLAN_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
+    case user_constants.ADD_USER_GOAL_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.ADD_USER_GOAL_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        goal: action.payload.goal,
+      }
+      break
+    case user_constants.ADD_USER_GOAL_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
+    case user_constants.GET_USER_GOAL_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.GET_USER_GOAL_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        goal: action.payload.goal,
+      }
+      break
+    case user_constants.GET_USER_GOAL_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
+    case user_constants.GET_CHAT_BOT_MESSAGE_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case user_constants.GET_CHAT_BOT_MESSAGE_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        chatBotMsg: action.payload.chatBotMsg,
+      }
+      break
+    case user_constants.GET_CHAT_BOT_MESSAGE_FAILURE:
       console.log(action)
       state = {
         ...state,
