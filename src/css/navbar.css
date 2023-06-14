@@ -21,6 +21,8 @@
     }
     #logo{
         height:20%; margin-top:2vh;
+        display: flex; flex-direction: row;
+        justify-content: center;
     }
     .left-btn{
         background-image: url("https://cdn-icons-png.flaticon.com/128/69/69524.png");
@@ -42,6 +44,8 @@
     }
     #sign-out{
         margin-top:30vh;
+        display: flex; 
+        flex-direction: row; justify-content: center;
     }
     #sign-out > img{
         height:20px; width:20px;
