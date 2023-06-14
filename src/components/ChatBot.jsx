@@ -4,7 +4,7 @@ import '../css/chatBot.css'
 import Navbar from './Navbar'
 import { male, female, getRandomInt } from './avatarget'
 import { useEffect } from 'react'
-import logo from './trackme-logo-rmvback.png'
+import logo from './send-btn.svg'
 import { getChatBotMessage } from '../actions/user_actions'
 
 const ChatBot = ({ token }) => {
@@ -12,7 +12,6 @@ const ChatBot = ({ token }) => {
   const [gender, setgender] = useState('female')
   const user = useSelector((state) => state.user)
   const [messages, setMessages] = useState([])
-  const [message, setMessage] = useState('')
   const [inputText, setInputText] = useState('')
   const dispatch = useDispatch()
 
@@ -25,11 +24,27 @@ const ChatBot = ({ token }) => {
   }
 
   useEffect(() => {
-    setMessage(user.chatBotMsg)
+    if (user.chatBotMsg != '') {
+      const botResponse = {
+        text: `${user.chatBotMsg}`,
+        sender: 'bot',
+      }
+      setMessages((prevMessages) => [...prevMessages, botResponse])
+    } else {
+      setMessages([])
+    }
   }, [user.chatBotMsg])
 
   const handleFormSubmit = () => {
     dispatch(getChatBotMessage(inputText, token))
+    if (inputText.trim() !== '') {
+      const newMessage = {
+        text: inputText,
+        sender: 'user',
+      }
+      setMessages((prevMessages) => [...prevMessages, newMessage])
+      setInputText('')
+    }
   }
 
   return (
@@ -37,7 +52,27 @@ const ChatBot = ({ token }) => {
       <Navbar></Navbar>
       <div className="chat-container">
         <div className="chat-messages">
-          {user.loading ? 'Loading...' : message}
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`chat-message ${
+                message.sender === 'bot' ? 'bot' : 'user'
+              }`}
+            >
+              <img
+                id="disp-img"
+                src={
+                  message.sender === 'bot'
+                    ? 'https://w7.pngwing.com/pngs/441/2/png-transparent-gray-shark-emoji-call-of-duty-ghosts-gymshark-fitness-centre-physical-exercise-cartoon-shark-cartoon-character-blue-marine-mammal-thumbnail.png'
+                    : gender === 'male'
+                    ? male[getRandomInt(0, 3)]
+                    : female[getRandomInt(0, 3)]
+                }
+                alt=""
+              />
+              {message.text}
+            </div>
+          ))}
         </div>
         <form className="chat-form" onSubmit={handleFormSubmit}>
           <input
