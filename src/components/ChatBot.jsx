@@ -64,9 +64,7 @@ const ChatBot = ({ token }) => {
                 src={
                   message.sender === 'bot'
                     ? 'https://w7.pngwing.com/pngs/441/2/png-transparent-gray-shark-emoji-call-of-duty-ghosts-gymshark-fitness-centre-physical-exercise-cartoon-shark-cartoon-character-blue-marine-mammal-thumbnail.png'
-                    : gender === 'male'
-                    ? male[getRandomInt(0, 3)]
-                    : female[getRandomInt(0, 3)]
+                    : male[0]
                 }
                 alt=""
               />

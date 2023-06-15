@@ -116,15 +116,15 @@ function Display({ currentDate, currentMonth, token }) {
             </div>
             <div className="total-cards" id="total-cal-out">
               <div className="name-card">Calories-Out:</div>
-              <CircularProgressbar value={60} text={`${40} / ${500}`} />
+              <CircularProgressbar value={30} text={`${80} / ${500}`} />
             </div>
             <div className="total-cards" id="total-protein">
               <div className="name-card">Protein:</div>
-              <CircularProgressbar value={60} text={`${40} / ${500}`} />
+              <CircularProgressbar value={20} text={`${20} / ${100}`} />
             </div>
             <div className="total-cards" id="total-sugar">
               <div className="name-card">Sugar:</div>
-              <CircularProgressbar value={60} text={`${40} / ${500}`} />
+              <CircularProgressbar value={10} text={`${10} / ${100}`} />
             </div>
           </div>
           <div id="workout">

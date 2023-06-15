@@ -5,7 +5,7 @@ import {
   serverAxiosInstance,
 } from '../helpers/axios'
 import { user_constants } from './constants'
-let headers = ''
+
 const setHeaders = (token) => {
   let setHeader = {
     headers: { authorization: token ? `Bearer ${token}` : '' },
@@ -19,7 +19,7 @@ export const foodList = (foodTitle) => {
       type: user_constants.FOOD_LIST_REQUEST,
     })
     const res = await foodApiAxiosInstance.get(
-      `/search?q=${foodTitle}&app_id=edf97c8d&app_key=e6569539d403bd3727030a61decea576`
+      `/search?q=${foodTitle}&app_id=1449b8a3&app_key=d038b028b85e06d8909cff30cd73d0ab`
     )
     console.log(res)
     if (res.status === 200) {

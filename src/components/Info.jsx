@@ -63,7 +63,7 @@ function Info({ token }) {
               <input
                 required=""
                 placeholder=""
-                type="password"
+                type="text"
                 class="input"
               ></input>
               <span>Phone Number</span>
@@ -72,7 +72,7 @@ function Info({ token }) {
               <input
                 required=""
                 placeholder=""
-                type="password"
+                type="text"
                 class="input"
               ></input>
               <span>Height(in cm)</span>
@@ -81,7 +81,7 @@ function Info({ token }) {
               <input
                 required=""
                 placeholder=""
-                type="password"
+                type="text"
                 class="input"
               ></input>
               <span>Weight(in kg)</span>
@@ -90,7 +90,7 @@ function Info({ token }) {
               <input
                 required=""
                 placeholder=""
-                type="password"
+                type="text"
                 class="input"
               ></input>
               <span>Age(in years)</span>
