@@ -3,7 +3,7 @@ import Navbar from './Navbar'
 // import { male, female, getRandomInt } from "./avatarget";
 import Display from './Display'
 import Profile from './Profile'
-import '../css/Home.css'
+import '../css/home.css'
 
 function Home({ token }) {
   const date = new Date()

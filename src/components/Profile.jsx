@@ -5,14 +5,13 @@ import { PickersDay } from '@mui/x-date-pickers/PickersDay'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { male, female, getRandomInt } from './avatarget'
+import { male } from './avatarget'
 
 function Profile({ setcurrdate, setcurrmonth }) {
   const months = 'JanFebMarAprMayJunJulAugSepOctNovDec'
   const user = useSelector((state) => state.user)
+  const auth = useSelector((state) => state.auth)
   let dates = []
-  const ind = getRandomInt(0, 3)
-  let gender = male
 
   if (user.currentMonthPlan.length !== 0) {
     if (user.currentMonthPlan.currentMonthMealPlans.length !== 0) {
@@ -30,34 +29,34 @@ function Profile({ setcurrdate, setcurrmonth }) {
     }
   }
 
-  // useEffect(() => {
-  //   const btns = document.querySelector(
-  //     '.css-kg9q0s-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button'
-  //   )
-  //   const nexbtn = document.querySelector(
-  //     '.css-1nkg345-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button'
-  //   )
-  //   if (btns) {
-  //     btns.addEventListener('click', () => {
-  //       setTimeout(() => {
-  //         const ele = document.querySelector(
-  //           '.css-dplwbx-MuiPickersCalendarHeader-label'
-  //         )
-  //         let month = months.indexOf(`${ele.innerHTML.slice(0, 3)}`) / 3 + 1
-  //         setcurrmonth(month)
-  //       }, 1000)
-  //     })
-  //     nexbtn.addEventListener('click', () => {
-  //       setTimeout(() => {
-  //         const ele = document.querySelector(
-  //           '.css-dplwbx-MuiPickersCalendarHeader-label'
-  //         )
-  //         let month = months.indexOf(`${ele.innerHTML.slice(0, 3)}`) / 3 + 1
-  //         setcurrmonth(month)
-  //       }, 1000)
-  //     })
-  //   }
-  // }, [])
+  useEffect(() => {
+    const btns = document.querySelector(
+      '.css-kg9q0s-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button'
+    )
+    const nexbtn = document.querySelector(
+      '.css-1nkg345-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button'
+    )
+    if (btns) {
+      btns.addEventListener('click', () => {
+        setTimeout(() => {
+          const ele = document.querySelector(
+            '.css-dplwbx-MuiPickersCalendarHeader-label'
+          )
+          let month = months.indexOf(`${ele.innerHTML.slice(0, 3)}`) / 3 + 1
+          setcurrmonth(month)
+        }, 1000)
+      })
+      nexbtn.addEventListener('click', () => {
+        setTimeout(() => {
+          const ele = document.querySelector(
+            '.css-dplwbx-MuiPickersCalendarHeader-label'
+          )
+          let month = months.indexOf(`${ele.innerHTML.slice(0, 3)}`) / 3 + 1
+          setcurrmonth(month)
+        }, 1000)
+      })
+    }
+  }, [])
   return (
     <div id="Prof">
       <div
@@ -75,7 +74,7 @@ function Profile({ setcurrdate, setcurrmonth }) {
         My Profile
       </div>
       <div id="prof-img">
-        <img src={gender === 'male' ? male[ind] : female[ind]} alt=""></img>
+        <img src={male[0]} alt=""></img>
         <div
           style={{
             height: '8vh',
@@ -87,7 +86,7 @@ function Profile({ setcurrdate, setcurrmonth }) {
             color: 'black',
           }}
         >
-          {'raj'}
+          <strong>{auth.user.name}</strong>
         </div>
       </div>
       <div id="calendar">

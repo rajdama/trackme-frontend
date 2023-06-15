@@ -167,7 +167,7 @@ function ExerciseTrack({ token }) {
                   />
 
                   <div className="search-inp">
-                    <div>Duration :</div>{' '}
+                    <div>Duration In Mins :</div>{' '}
                     <input
                       type="number"
                       onChange={(e) => {
