@@ -45,7 +45,7 @@ function Display({ currentDate, currentMonth, token }) {
             fontWeight: 'bold',
           }}
         >
-          Hello, Raj ! &#x1F44B;
+          Hello, {auth.user.name} ! &#x1F44B;
         </div>
         <div
           style={{
