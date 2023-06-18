@@ -339,62 +339,6 @@ export const getCurrentMonthPlan = (month, userId, token) => {
   }
 }
 
-export const addUserGoal = (userId, goal, token) => {
-  return async (dispatch) => {
-    dispatch({
-      type: user_constants.ADD_USER_GOAL_REQUEST,
-    })
-
-    try {
-      const res = await serverAxiosInstance.post(
-        `/addUserGoal`,
-        {
-          userId,
-          goal,
-        },
-        setHeaders(token)
-      )
-      dispatch({
-        type: user_constants.ADD_USER_GOAL_SUCCESS,
-        payload: { goal: res.data.goal },
-      })
-    } catch (error) {
-      dispatch({
-        type: user_constants.ADD_USER_GOAL_FAILURE,
-        payload: { error: error.response.data.error },
-      })
-    }
-  }
-}
-
-export const getUserGoal = (userId, token) => {
-  return async (dispatch) => {
-    dispatch({
-      type: user_constants.GET_USER_GOAL_REQUEST,
-    })
-
-    try {
-      const res = await serverAxiosInstance.post(
-        `/getUserGoal`,
-        {
-          userId,
-        },
-        setHeaders(token)
-      )
-      console.log(res)
-      dispatch({
-        type: user_constants.GET_USER_GOAL_SUCCESS,
-        payload: { goal: res.data.goal },
-      })
-    } catch (error) {
-      dispatch({
-        type: user_constants.GET_USER_GOAL_FAILURE,
-        payload: { error: error.response.data.error },
-      })
-    }
-  }
-}
-
 export const getChatBotMessage = (msg, token) => {
   return async (dispatch) => {
     dispatch({

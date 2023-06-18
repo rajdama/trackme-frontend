@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import Quotes from './common/Quotes'
 import '../css/Auth.css'
-import { getUserGoal } from '../actions/user_actions'
 
 function SignInForm() {
   const [email, setemail] = useState('')
@@ -20,8 +19,11 @@ function SignInForm() {
   }, [])
 
   if (auth.authenticate) {
-    dispatch(getUserGoal(auth.user.$id))
-    return <Navigate to={'/info'} />
+    if (auth.user?.prefs?.goal) {
+      return <Navigate to={'/'} />
+    } else {
+      return <Navigate to={'/info'} />
+    }
   }
 
   const userLogin = (e) => {

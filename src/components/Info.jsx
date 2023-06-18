@@ -1,24 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux'
 import '../css/Info.css'
 import logo from './trackme-logo-rmvback.png'
-import { addUserGoal } from '../actions/user_actions'
-import { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
+import { getUpdatedUser } from '../actions'
 
 function Info({ token }) {
-  const user = useSelector((state) => state.user)
   const auth = useSelector((state) => state.auth)
   const dispatch = useDispatch()
 
   const setGoal = (goal) => {
-    dispatch(addUserGoal(auth.user.$id, goal, token))
+    dispatch(getUpdatedUser(auth.user.$id, goal, token))
   }
 
-  useEffect(() => {
-    console.log(user.goal)
-  }, [user.goal])
-
-  return !user.goal ? (
+  return !auth.user?.prefs?.goal ? (
     <div id="Info-Page">
       <div id="upper-info-page">
         <img src={logo} alt="" className="logo-website" />

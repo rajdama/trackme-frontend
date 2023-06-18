@@ -61,6 +61,29 @@ export default function auth_reducer(state = initialState, action) {
         loading: true,
       }
       break
+    case auth_constants.GET_UPDATED_USER_REQUEST:
+      console.log(action)
+      state = {
+        ...state,
+        loading: true,
+      }
+      break
+    case auth_constants.GET_UPDATED_USER_SUCCESS:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        user: action.payload.user,
+      }
+      break
+    case auth_constants.GET_UPDATED_USER_FAILURE:
+      console.log(action)
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      }
+      break
     default:
       console.log(action)
   }

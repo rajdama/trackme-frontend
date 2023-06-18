@@ -5,6 +5,7 @@ const initState = {
   message: '',
   exists: false,
   excercisePlanExist: false,
+  goalLoading: false,
   mealPlan: [],
   excercisePlan: [],
   currentMonthPlan: [],
@@ -282,34 +283,11 @@ export default function user_reducer(state = initState, action) {
         error: action.payload.error,
       }
       break
-    case user_constants.ADD_USER_GOAL_REQUEST:
-      console.log(action)
-      state = {
-        ...state,
-        loading: true,
-      }
-      break
-    case user_constants.ADD_USER_GOAL_SUCCESS:
-      console.log(action)
-      state = {
-        ...state,
-        loading: false,
-        goal: action.payload.goal,
-      }
-      break
-    case user_constants.ADD_USER_GOAL_FAILURE:
-      console.log(action)
-      state = {
-        ...state,
-        loading: false,
-        error: action.payload.error,
-      }
-      break
     case user_constants.GET_USER_GOAL_REQUEST:
       console.log(action)
       state = {
         ...state,
-        loading: true,
+        goalLoading: true,
       }
       break
     case user_constants.GET_USER_GOAL_SUCCESS:

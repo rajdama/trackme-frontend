@@ -1,6 +1,13 @@
 import { serverAxiosInstance } from '../helpers/axios'
 import { auth_constants } from './constants'
 
+const setHeaders = (token) => {
+  let setHeader = {
+    headers: { authorization: token ? `Bearer ${token}` : '' },
+  }
+  return setHeader
+}
+
 export const signup = (user) => {
   return async (dispatch) => {
     dispatch({ type: auth_constants.USER_REGISTER_REQUEST })
@@ -48,6 +55,35 @@ export const login = (user) => {
       if (res.status === 400) {
         dispatch({
           type: auth_constants.LOGIN_FAILURE,
+          payload: { error: res.data.error },
+        })
+      }
+    }
+  }
+}
+
+export const getUpdatedUser = (userId, goal, token) => {
+  return async (dispatch) => {
+    dispatch({ type: auth_constants.GET_UPDATED_USER_REQUEST })
+    const res = await serverAxiosInstance.post(
+      '/getUpdateduser',
+      {
+        userId,
+        goal,
+      },
+      setHeaders(token)
+    )
+    console.log(res)
+
+    if (res.status === 200) {
+      dispatch({
+        type: auth_constants.GET_UPDATED_USER_SUCCESS,
+        payload: { user: res.data },
+      })
+    } else {
+      if (res.status === 400) {
+        dispatch({
+          type: auth_constants.GET_UPDATED_USER_FAILURE,
           payload: { error: res.data.error },
         })
       }
