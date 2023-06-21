@@ -29,34 +29,33 @@ function Profile({ setcurrdate, setcurrmonth }) {
     }
   }
 
-  useEffect(() => {
-    const btns = document.querySelector(
-      '.css-kg9q0s-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button'
-    )
-    const nexbtn = document.querySelector(
-      '.css-1nkg345-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button'
-    )
-    if (btns) {
-      btns.addEventListener('click', () => {
-        setTimeout(() => {
-          const ele = document.querySelector(
-            '.css-dplwbx-MuiPickersCalendarHeader-label'
-          )
-          let month = months.indexOf(`${ele.innerHTML.slice(0, 3)}`) / 3 + 1
-          setcurrmonth(month)
-        }, 1000)
-      })
-      nexbtn.addEventListener('click', () => {
-        setTimeout(() => {
-          const ele = document.querySelector(
-            '.css-dplwbx-MuiPickersCalendarHeader-label'
-          )
-          let month = months.indexOf(`${ele.innerHTML.slice(0, 3)}`) / 3 + 1
-          setcurrmonth(month)
-        }, 1000)
-      })
-    }
-  }, [])
+  const btns = document.querySelector(
+    '.css-kg9q0s-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button'
+  )
+  const nexbtn = document.querySelector(
+    '.css-1nkg345-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button'
+  )
+  if (btns) {
+    btns.addEventListener('click', () => {
+      setTimeout(() => {
+        const ele = document.querySelector(
+          '.css-dplwbx-MuiPickersCalendarHeader-label'
+        )
+        let month = months.indexOf(`${ele.innerHTML.slice(0, 3)}`) / 3 + 1
+        setcurrmonth(month)
+      }, 1000)
+    })
+    nexbtn.addEventListener('click', () => {
+      setTimeout(() => {
+        const ele = document.querySelector(
+          '.css-dplwbx-MuiPickersCalendarHeader-label'
+        )
+        let month = months.indexOf(`${ele.innerHTML.slice(0, 3)}`) / 3 + 1
+        setcurrmonth(month)
+      }, 1000)
+    })
+  }
+
   return (
     <div id="Prof">
       <div

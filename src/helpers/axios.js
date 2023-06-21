@@ -1,12 +1,25 @@
 import axios from 'axios'
-import { server, foodApi, imageApi, excerciseApi } from '../urlConfig'
+import {
+  server,
+  foodImageApi,
+  foodNutrientsApi,
+  imageApi,
+  excerciseApi,
+} from '../urlConfig'
 
 const serverAxiosInstance = axios.create({
   baseURL: server,
 })
 
-const foodApiAxiosInstance = axios.create({
-  baseURL: foodApi,
+const foodImageApiAxiosInstance = axios.create({
+  baseURL: foodImageApi,
+})
+
+const foodNutrientsApiAxiosInstance = axios.create({
+  baseURL: foodNutrientsApi,
+  headers: {
+    'X-Api-Key': 'ucEV12GPPboZ2fNVpbMRug==xSlYlXvvkCXk1yx1',
+  },
 })
 
 const imageApiAxiosInstance = axios.create({
@@ -23,7 +36,8 @@ const excerciseApiAxiosInstance = axios.create({
 
 export {
   serverAxiosInstance,
-  foodApiAxiosInstance,
+  foodImageApiAxiosInstance,
+  foodNutrientsApiAxiosInstance,
   imageApiAxiosInstance,
   excerciseApiAxiosInstance,
 }

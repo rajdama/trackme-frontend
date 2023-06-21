@@ -1,6 +1,7 @@
 import {
   excerciseApiAxiosInstance,
-  foodApiAxiosInstance,
+  foodImageApiAxiosInstance,
+  foodNutrientsApiAxiosInstance,
   imageApiAxiosInstance,
   serverAxiosInstance,
 } from '../helpers/axios'
@@ -13,26 +14,31 @@ const setHeaders = (token) => {
   return setHeader
 }
 
-export const foodList = (foodTitle) => {
+export const foodInfo = (quantity, foodTitle) => {
   return async (dispatch) => {
     dispatch({
       type: user_constants.FOOD_LIST_REQUEST,
     })
-    const res = await foodApiAxiosInstance.get(
+    const res1 = await foodImageApiAxiosInstance.get(
       `/search?q=${foodTitle}&app_id=1449b8a3&app_key=d038b028b85e06d8909cff30cd73d0ab`
     )
-    console.log(res)
-    if (res.status === 200) {
-      const foodlist = res.data
-      console.log(foodlist)
+    const res2 = await foodNutrientsApiAxiosInstance.get(
+      `/v1/nutrition?query= I ate ${quantity} of ${foodTitle}`
+    )
+
+    console.log(res1, res2)
+
+    if (res1.status === 200 && res2.status === 200) {
+      const image = res1.data.hits[1].recipe.image
+      const foodInfo = res2.data.items[0]
       dispatch({
         type: user_constants.FOOD_LIST_SUCCESS,
-        payload: { selectedFood: foodlist },
+        payload: { selectedFood: { ...foodInfo, image, quantity } },
       })
     } else {
       dispatch({
         type: user_constants.FOOD_LIST_FAILURE,
-        payload: { error: res.data.error },
+        payload: { error: 'Failed' },
       })
     }
   }

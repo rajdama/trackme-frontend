@@ -4,19 +4,18 @@ import { useSelector, useDispatch } from 'react-redux'
 import Navbar from './Navbar'
 import {
   createMealPlan,
-  foodList,
+  foodInfo,
   getMealPlan,
   mealPlanExists,
   updateMealPlan,
 } from '../actions/user_actions'
-import { ReactSearchAutocomplete } from 'react-search-autocomplete'
-
 import '../css/mealPlanner.css'
 import 'react-circular-progressbar/dist/styles.css'
 
 function Mealplanner({ token }) {
   let nutrients = [{}, {}, {}, {}]
   const date = new Date()
+
   let currentDate = `${date.getDate()}-${
     date.getMonth() + 1
   }-${date.getFullYear()}`
@@ -31,44 +30,33 @@ function Mealplanner({ token }) {
   ]
 
   const [period, setperiod] = useState(0)
-
   const [mealPlan, setMealPlan] = useState([[], [], [], []])
-  const [selectedFood, setSelectedFood] = useState({})
+  const [addFood, setAddFood] = useState({ quantity: 1 })
+  const [selectedFood, setSelectedFood] = useState()
+
+  const dispatch = useDispatch()
+  const auth = useSelector((state) => state.auth)
+  const user = useSelector((state) => state.user)
 
   const setPeriodTime = async (val) => {
     await setperiod(val)
   }
 
-  //We will store the added food items in the respective arrays which is declared for breakfast,lunch,snack,dinnner
-
-  const dispatch = useDispatch()
-
   useEffect(() => {
     dispatch(mealPlanExists(auth.user.$id, currentDate, token))
     dispatch(getMealPlan(auth.user.$id, currentDate, token))
-
-    if (user.mealPlan.length === 0 && user.exists) {
-      setTimeout(() => {
-        window.location.reload()
-      }, 2000)
-    }
+    user.selectedFood = {}
   }, [])
 
   const periods = ['Breakfast', 'Lunch', 'Snacks', 'Dinner']
-
-  let items
 
   const openSearch = () => {
     document.getElementById('myOverlay').style.display = 'block'
   }
   const closeSearch = () => {
     document.getElementById('myOverlay').style.display = 'none'
-  }
-
-  const handleOnSearch = (string, results) => {
-    if (string !== '') {
-      dispatch(foodList(string))
-    }
+    user.selectedFood = {}
+    setSelectedFood({})
   }
 
   const handleOnSave = () => {
@@ -82,61 +70,55 @@ function Mealplanner({ token }) {
       )
       dispatch(mealPlanExists(auth.user.$id, currentDate, token))
     }
-    dispatch(getMealPlan(auth.user.$id, currentDate, token))
-    setMealPlan([...user.mealPlan])
+    setTimeout(() => {
+      dispatch(getMealPlan(auth.user.$id, currentDate, token))
+    }, 2000)
     setSelectedFood({})
+
     closeSearch()
   }
 
-  const auth = useSelector((state) => state.auth)
-  const handleOnSelect = (item) => {
-    if (user.goal === 1) {
-      //loss
-      if (item.calories > 2000) {
-        item = { ...item, warning: 'Calories are too high' }
-      }
-    }
-    if (user.goal === 2) {
-      //gain
-      if (item.calories < 3000) {
-        item = { ...item, warning: 'Calories are too low' }
-      }
-    }
-    if (user.goal === 3) {
-      //maintain
-      if (item.calories < 500 || item.calories > 2500) {
-        item = {
-          ...item,
-          warning: 'Calories are not in the range for maintaining weight',
-        }
-      }
-    }
-
-    setSelectedFood({ ...item })
-  }
-
-  const handleOnClear = () => {}
-
-  const user = useSelector((state) => state.user)
   useEffect(() => {
     if (user.mealPlan.length !== 0) {
+      console.log(user.mealPlan)
       setMealPlan([...user.mealPlan])
     }
   }, [user.mealPlan])
 
-  if (user.selectedFood?.hits) {
-    items = user.selectedFood.hits.map((item, i) => {
-      return {
-        id: i,
-        name: item.recipe.label,
-        image: item.recipe.image,
-        calories: Math.round(item.recipe.calories),
-        protein: Math.round(item.recipe.digest[2].total),
-        carbs: Math.round(item.recipe.digest[1].total),
-        sugar: Math.round(item.recipe.totalNutrients.SUGAR.quantity),
+  useEffect(() => {
+    if (user.selectedFood?.name) {
+      let item = user.selectedFood
+      if (auth.user.prefs.goal === '1') {
+        //loss
+
+        if (item.calories > 2000) {
+          item = {
+            ...item,
+            warning: 'Calories are too high',
+          }
+        }
       }
-    })
-  }
+      if (auth.user.prefs.goal === '2') {
+        //gain
+        if (item.calories < 3000) {
+          item = {
+            ...item,
+            warning: 'Calories are too low',
+          }
+        }
+      }
+      if (auth.user.prefs.goal === '3') {
+        //maintain
+        if (item.calories < 500 || item.calories > 2500) {
+          item = {
+            ...item,
+            warning: 'Calories are not in the range for maintaining weight',
+          }
+        }
+      }
+      setSelectedFood(item)
+    }
+  }, [user.selectedFood])
 
   return (
     <Page>
@@ -147,53 +129,99 @@ function Mealplanner({ token }) {
         </span>
         <div className="overlay-content">
           <form>
-            <ReactSearchAutocomplete
-              items={items}
-              onSearch={handleOnSearch}
-              onSelect={handleOnSelect}
-              onClear={handleOnClear}
-              autoFocus
-              // formatResult={formatResult}
-            />
-          </form>
-          <p>form</p>
-          {selectedFood.name && (
-            <>
-              <div
-                className="my-5"
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <input
                 style={{
-                  display: 'flex',
-                  marginRight: '30px',
-                  marginLeft: '30px',
+                  padding: '15px',
+                  fontSize: '17px',
+                  border: 'none',
+                  outline: 'none',
+                  borderRadius: '30px',
                   width: '80%',
                 }}
+                type="text"
+                onChange={(e) => {
+                  setAddFood({
+                    ...addFood,
+                    foodTitle: e.target.value,
+                  })
+                }}
+              />
+
+              <input
+                style={{
+                  padding: '15px',
+                  fontSize: '17px',
+                  border: 'none',
+                  outline: 'none',
+                  borderRadius: '30px',
+                  marginLeft: '10px',
+                  width: '5%',
+                }}
+                type="text"
+                onChange={(e) => {
+                  setAddFood({ ...addFood, quantity: e.target.value })
+                }}
+                value={addFood.quantity}
+              />
+
+              <button
+                onClick={(e) => {
+                  e.preventDefault()
+                  dispatch(foodInfo(addFood.quantity, addFood.foodTitle))
+                }}
+                style={{
+                  width: '5%',
+                  borderRadius: '20px',
+                  marginLeft: '20px',
+                }}
               >
-                <div className="searchresult">
-                  <img
-                    style={{ height: '19vh', width: '18vh' }}
-                    src={selectedFood.image}
-                    alt="img"
-                  ></img>
-                  <div className="detailsfood">
-                    <p>{selectedFood.name}</p>
-                    <p>carlories : {Math.round(selectedFood.calories)}</p>
+                Add
+              </button>
+            </div>
+          </form>
+          <p>.</p>
+          {selectedFood?.name && (
+            <>
+              {!user.loading ? (
+                <div
+                  className="my-5"
+                  style={{
+                    display: 'flex',
+                    marginRight: '30px',
+                    marginLeft: '30px',
+                    width: '80%',
+                  }}
+                >
+                  <div className="searchresult">
+                    <img
+                      style={{ height: '19vh', width: '18vh' }}
+                      src={selectedFood.image}
+                      alt="img"
+                    ></img>
+                    <div className="detailsfood">
+                      <p>{selectedFood.name}</p>
+                      <p>carlories : {Math.round(selectedFood.calories)}</p>
+                    </div>
                   </div>
+                  {selectedFood.warning ? (
+                    <div style={{ color: 'red' }}>{selectedFood.warning}</div>
+                  ) : (
+                    <button
+                      className="my-5 "
+                      id="save"
+                      onClick={() => {
+                        handleOnSave()
+                      }}
+                      style={{ height: '50px', borderRadius: '15px' }}
+                    >
+                      Save
+                    </button>
+                  )}
                 </div>
-                {selectedFood.warning ? (
-                  <div style={{ color: 'red' }}>{selectedFood.warning}</div>
-                ) : (
-                  <button
-                    className="my-5 "
-                    id="save"
-                    onClick={() => {
-                      handleOnSave()
-                    }}
-                    style={{ height: '50px', borderRadius: '15px' }}
-                  >
-                    Save
-                  </button>
-                )}
-              </div>
+              ) : (
+                <p style={{ color: 'white' }}>loading...</p>
+              )}
             </>
           )}
         </div>
@@ -202,6 +230,7 @@ function Mealplanner({ token }) {
         <div id="upper">
           <div id="up-left">
             <h3>Today's Diet</h3>
+
             <div id="date">
               <div>{weekday[date.getDay()]}</div>
               <div>
@@ -258,16 +287,18 @@ function Mealplanner({ token }) {
                       {meal.length !== 0 &&
                         meal.map((item) => {
                           nutrients[index].calorie =
-                            nutrients[index].calorie + item.calories
+                            nutrients[index].calorie + Math.round(item.calories)
 
                           nutrients[index].sugar =
-                            nutrients[index].sugar + item.sugar
+                            nutrients[index].sugar + Math.round(item.sugar_g)
 
                           nutrients[index].carbs =
-                            nutrients[index].carbs + item.carbs
+                            nutrients[index].carbs +
+                            Math.round(item.carbohydrates_total_g)
 
                           nutrients[index].protein =
-                            nutrients[index].protein + item.protein
+                            nutrients[index].protein +
+                            Math.round(item.protein_g)
 
                           return (
                             <Card>
@@ -276,10 +307,18 @@ function Mealplanner({ token }) {
                               </div>
                               <div id="food-info">
                                 <div>{item.name}</div>
-                                <div>Calories: {item.calories}</div>
-                                <div>Protein: {item.protein}</div>
-                                <div>Carbs: {item.carbs}</div>
-                                <div>Sugar: {item.sugar}</div>
+                                <div>
+                                  Serving Size:{' '}
+                                  {Math.round(item.serving_size_g)}
+                                </div>
+                                <div>Calories: {Math.round(item.calories)}</div>
+                                <div>Protein: {Math.round(item.protein_g)}</div>
+                                <div>
+                                  Carbs:
+                                  {Math.round(item.carbohydrates_total_g)}
+                                </div>
+                                <div>Sugar: {Math.round(item.sugar_g)}</div>
+                                <div>Quantity: {Math.round(item.quantity)}</div>
                               </div>
                             </Card>
                           )
