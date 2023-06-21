@@ -359,9 +359,11 @@ export const getChatBotMessage = (msg, token) => {
           setHeaders(token)
         )
 
+        console.log(res)
+
         dispatch({
           type: user_constants.GET_CHAT_BOT_MESSAGE_SUCCESS,
-          payload: { chatBotMsg: res.data[0].message.content },
+          payload: { chatBotMsg: res.data },
         })
       } catch (error) {
         dispatch({
