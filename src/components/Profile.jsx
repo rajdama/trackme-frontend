@@ -4,7 +4,6 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker'
 import { PickersDay } from '@mui/x-date-pickers/PickersDay'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useSelector } from 'react-redux'
-import { useEffect } from 'react'
 import { male } from './avatarget'
 
 function Profile({ setcurrdate, setcurrmonth }) {
@@ -16,8 +15,17 @@ function Profile({ setcurrdate, setcurrmonth }) {
   if (user.currentMonthPlan.length !== 0) {
     if (user.currentMonthPlan.currentMonthMealPlans.length !== 0) {
       user.currentMonthPlan.currentMonthMealPlans.map((plan) => {
-        let date = plan.date
-        dates.push(parseInt(date.slice(0, date.indexOf('-'))))
+        let mealPlanExists = false
+        const mealPlan = JSON.parse(plan.mealPlan)
+        for (let i = 0; i < mealPlan.length; i++) {
+          if (mealPlan[i].length != 0) {
+            mealPlanExists = true
+          }
+        }
+        if (mealPlanExists) {
+          let date = plan.date
+          dates.push(parseInt(date.slice(0, date.indexOf('-'))))
+        }
       })
     }
     if (user.currentMonthPlan.currentMontheExcercisePlans.length !== 0) {

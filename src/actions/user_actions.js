@@ -159,6 +159,44 @@ export const getMealPlan = (userId, currentDate, token) => {
   }
 }
 
+export const deleteMeal = (
+  userId,
+  currentDate,
+  periodIndex,
+  mealIndex,
+  token
+) => {
+  return async (dispatch) => {
+    dispatch({
+      type: user_constants.DELETE_MEAL_PLAN_REQUEST,
+    })
+
+    try {
+      let res = await serverAxiosInstance.post(
+        `/deleteMeal`,
+        {
+          userId,
+          periodIndex,
+          mealIndex,
+          date: currentDate,
+        },
+        setHeaders(token)
+      )
+      console.log(res.data)
+      dispatch({
+        type: user_constants.DELETE_MEAL_PLAN_SUCCESS,
+        payload: { mealPlan: res.data },
+      })
+    } catch (error) {
+      console.log(error)
+      dispatch({
+        type: user_constants.DELETE_MEAL_PLAN_FAILURE,
+        payload: { error: error.response.data.error },
+      })
+    }
+  }
+}
+
 export const getExcerciseImage = (excerciseName) => {
   return async (dispatch) => {
     dispatch({

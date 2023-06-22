@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Navbar from './Navbar'
 import {
   createMealPlan,
+  deleteMeal,
   foodInfo,
   getMealPlan,
   mealPlanExists,
@@ -76,6 +77,15 @@ function Mealplanner({ token }) {
     setSelectedFood({})
 
     closeSearch()
+  }
+
+  const handleOnDelete = (periodIndex, mealIndex) => {
+    dispatch(
+      deleteMeal(auth.user.$id, currentDate, periodIndex, mealIndex, token)
+    )
+    setTimeout(() => {
+      dispatch(getMealPlan(auth.user.$id, currentDate, token))
+    }, 2000)
   }
 
   useEffect(() => {
@@ -285,7 +295,7 @@ function Mealplanner({ token }) {
                       className="cards"
                     >
                       {meal.length !== 0 &&
-                        meal.map((item) => {
+                        meal.map((item, index2) => {
                           nutrients[index].calorie =
                             nutrients[index].calorie + Math.round(item.calories)
 
@@ -306,6 +316,29 @@ function Mealplanner({ token }) {
                                 <img src={item.image} alt=""></img>
                               </div>
                               <div id="food-info">
+                                <div
+                                  style={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                  }}
+                                >
+                                  <div>{item.name}</div>
+                                  <img
+                                    onClick={() => {
+                                      handleOnDelete(index, index2)
+                                    }}
+                                    style={{
+                                      marginTop: 7,
+                                      marginLeft: 20,
+                                      height: 15,
+                                      width: 15,
+                                    }}
+                                    src="https://cdn-icons-png.flaticon.com/128/1828/1828843.png"
+                                    alt=""
+                                  ></img>
+                                </div>
                                 <div>{item.name}</div>
                                 <div>
                                   Serving Size:{' '}
