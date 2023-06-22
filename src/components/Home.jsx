@@ -26,33 +26,18 @@ function Home({ token }) {
 
   return (
     <div id="Page-Home">
-      {window.innerWidth >= 500 ? (
-        <div id="Main-Home">
-          <Navbar />
-          <Display
-            token={token}
-            currentMonth={currmonth}
-            currentDate={currdate}
-          />
-          <Profile
-            setcurrmonth={setcurrmonthfunc}
-            setcurrdate={setcurrdatefunc}
-          />
-        </div>
-      ) : (
-        <div id="Main-Home">
-          <Navbar />
-          <Display
-            token={token}
-            currentMonth={currmonth}
-            currentDate={currdate}
-          />
-          <Profile
-            setcurrmonth={setcurrmonthfunc}
-            setcurrdate={setcurrdatefunc}
-          />
-        </div>
-      )}
+      <div id="Main-Home">
+        <Navbar />
+        <Display
+          token={token}
+          currentMonth={currmonth}
+          currentDate={currdate}
+        />
+        <Profile
+          setcurrmonth={setcurrmonthfunc}
+          setcurrdate={setcurrdatefunc}
+        />
+      </div>
     </div>
   )
 }

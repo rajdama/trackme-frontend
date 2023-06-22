@@ -20,6 +20,7 @@ function Profile({ setcurrdate, setcurrmonth }) {
         for (let i = 0; i < mealPlan.length; i++) {
           if (mealPlan[i].length != 0) {
             mealPlanExists = true
+            break
           }
         }
         if (mealPlanExists) {

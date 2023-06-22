@@ -79,3 +79,151 @@
     margin:auto;
   }
   
+  #Page-meal{
+    height: 100vh; width: 100vw;
+    display: flex; flex-direction: row;
+}
+#Main-meal{
+    height: 100vh; width: 95vw;
+}
+#upper-meal{
+    height:15%; width:100%;
+    display:flex; flex-direction:row;
+    background-color:rgba(201, 213, 165, 1);
+    color:black;
+}
+#up-left-meal{
+    height:100%; width:30%; display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:center;
+    margin-left:5%;
+}
+#up-right-meal{
+    height:100%; width:70%; display:flex; flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center; margin-top:1vh;
+}
+#lower-meal{
+    height:85%;
+    width:100%; background-color:rgba(253, 251, 249, 1); 
+    display:flex; flex-direction:row;
+    align-items:center; justify-content:center;
+}
+#container{
+    height:90%; width:90%; background-color:white;
+    overflow:scroll;
+}
+#date{
+    display:flex; flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+#date > div{
+    margin-right:5px;
+}
+.progress-track-meal{
+    height:8vh; width:8vh;
+    margin-right:2vw;
+}
+@media (min-width: 500px){
+    .meals-mealplan{
+        color:black;
+        width:100%;
+        height:25%;
+        display:flex; flex-direction:row;
+    }
+}
+.Card-mealplans{
+    width:100%;
+    display:flex; flex-direction:row;
+}
+.lab{
+    width:10%; display:flex; flex-direction:column; justify-content:center;
+    height:100%;
+}
+.macro{
+    width:15%; height:100%; display:flex; flex-direction:column;
+    align-items:flex-start; justify-content:center;
+}
+.add > img{
+    height:50px; width:50px;
+    cursor:pointer;
+}
+.add:hover{
+transform:scale(1.1);
+}
+#add{
+    margin-top:5%;
+}
+.Card-mealplan{
+    height:90%; width:17vw; display:flex; flex-direction:row; color:black;
+    font-size:14px;
+    border:2px solid black;
+    border-radius:10px; margin-top:2vh; margin-right:10px;
+}
+.Card-mealplan:hover{
+    transform:scale(1.1);
+    cursor:pointer;
+}
+#food-img{
+    height:100%; width:50%;
+}
+#food-img > img{
+    height:100%; width:100%;
+} 
+#food-info{
+    display:flex; flex-direction:column;
+    align-items:flex-start; margin-left:5px;
+}
+#food-info div:first-child {
+    font-size: 20px; font-weight: bold;
+}
+.cards-mealplan{
+    display: flex;
+    flex-direction: row;
+}
+@media (max-width: 500px){
+    #Page-meal{
+        display: flex; flex-direction: column-reverse; 
+        height: auto;
+    }
+    #Main-meal{
+        width: 100vw; 
+    }
+    #upper-meal{
+        height:30vh !important;
+        display:flex; flex-direction:row !important; 
+    }
+    #up-right-meal{
+        width:50vw;
+        display: flex; flex-direction: row;
+        flex-wrap: wrap;
+        margin-bottom:2vh;
+        margin-left:6vw;
+    }
+    .progress-track-meal{
+        width:10vh !important;
+    }
+    .meals-mealplan{
+        display: flex; flex-direction: column;
+        height:auto !important;
+        color:black;
+        width:100%;
+    }
+    .cards-mealplan{
+        flex-direction: column;
+    }
+    .macro{
+        display: flex; flex-direction: row;
+        width:100% !important;
+        justify-content: space-between;
+    }
+    .Card-mealplan{
+        width:70vw;
+        margin-left:auto; margin-right:auto;
+    }
+    #food-img > img{
+      height:15vh !important;
+    }
+}
