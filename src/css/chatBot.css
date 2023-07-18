@@ -14,7 +14,7 @@
 }
 
 .chat-messages {
-  height: 85%;
+  height: 80%;
   padding: 10px;
   overflow-y: scroll;
 }
@@ -53,7 +53,7 @@
   display: flex;
   align-items: center;
   background-color: transparent;
-  width:60vw;
+  width:50vw;
   margin-left: auto;
   margin-right: auto;
   height: 8vh;
@@ -65,6 +65,7 @@
 .chat-input {
   flex: 1;
   padding: 8px;
+  font-size: 20px;
   border: none;
   outline: none;
   height: 100%;
@@ -79,7 +80,7 @@
   border-radius: 3px;
   cursor: pointer;
   margin-right: 1vw;
-  height: 40px; width: 40px;
+  height: 20px; width: 20px;
 }
 
 .chat-submit-button:hover {
@@ -91,12 +92,17 @@
   }
   .chat-form{
     width: 80vw;
-    margin-top: 2vh;
+  }
+  .chat-messages{
+    height:75vh;
   }
   .chat-submit-button{
-    margin-right:10px;
+    margin-right:20px;
   }
   .chat-container{
     width: 100vw;
+  }
+  .chat-input{
+    width:80%;
   }
 }
