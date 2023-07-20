@@ -1,4 +1,4 @@
-export const server = 'http://localhost:1000'
+export const server = 'https://track-me-backend.onrender.com/'
 export const foodImageApi = 'https://api.edamam.com'
 export const foodNutrientsApi = 'https://api.calorieninjas.com'
 export const imageApi = 'https://pixabay.com/api'
