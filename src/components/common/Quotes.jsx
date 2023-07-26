@@ -7,7 +7,8 @@ const Quotes = () => {
     fetch('https://type.fit/api/quotes')
       .then((response) => response.json())
       .then((response) => {
-        setquotes(response[getRndInteger(0, 1200)])
+        console.log(response);
+        setquotes(response[getRndInteger(0, 10)])
       })
       .catch((err) => console.error(err))
   }
