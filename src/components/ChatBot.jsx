@@ -68,7 +68,7 @@ const ChatBot = ({ token }) => {
                 }
                 alt=""
               />
-              {message.text}
+              <div className="text-msg">{message.text}</div>
             </div>
           ))}
         </div>
