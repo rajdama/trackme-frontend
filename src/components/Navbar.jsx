@@ -18,7 +18,7 @@ function Navbar() {
   return (
     <div id="Main-navbar">
       <div id="logo">
-        <img src={logo} alt="" id="logo-img"></img>
+        <img style = {{height:'30%',width:'50%',marginLeft:2}} src="https://img.icons8.com/?size=80&id=W7Qiu7psXgwS&format=png" alt="" id="logo-img"></img>
       </div>
       <div id="nav-items">
         <button
