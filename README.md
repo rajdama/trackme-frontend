@@ -1,70 +1,44 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project Title
 
-## Available Scripts
+TrackMe: Your Fitness Journey Simplified!
 
-In the project directory, you can run:
 
-### `npm start`
+## Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Our fitness tracker app is designed to make it easy for people to stay on top of their fitness goals. Instead of juggling multiple tools and resources, everything you need is in one place.
+## Key Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Meal Planner: You can log what you eat every day, including ingredients and portion sizes, to keep track of your diet and make better food choices.
 
-### `npm test`
+![alt text](https://cdn.hashnode.com/res/hashnode/image/upload/v1686812479085/4f17c71f-ec68-4027-99a2-87111fc4e90f.png?auto=compress,format&format=webp)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Exercise Tracker
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You can record your workouts and physical activities to monitor your progress and stay motivated.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![alt text](https://cdn.hashnode.com/res/hashnode/image/upload/v1686812739399/bdd94aa8-46a4-4aee-a33e-2b25eb8f360b.png?auto=compress,format&format=webp)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Home App & Goal Tracking
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+This is your central hub where you can see all your meals and workouts from previous days. It helps you understand your progress and where you might need to improve. Plus, the app sends reminders to help you stay consistent with your eating and exercise habits.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![alt text](https://cdn.hashnode.com/res/hashnode/image/upload/v1686812070060/bac48cac-02ec-47ee-894e-e57f3afde4e7.png?auto=compress,format&format=webp)
+## AI Health Assistant
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This is like having a virtual coach. You can ask questions about your fitness goals and get personalized advice and tips to help you succeed.
+## Tech Stack
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+- React.js: For the user interface.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- APIs: Edamam for nutrition data, OpenAI for smart assistance, and Pixabay for images.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Backend: Express.js and Appwrite for managing user data and authentication.
 
-### Code Splitting
+- Deployment: Render for the backend and Netlify  for the frontend.
+## Challenges & Solutions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The most challenging part was with our database while handling complex data. It couldn’t directly support nested information, so we had to convert this data into a different format (JSON strings) to store it. This solution worked but made data handling a bit more complex.
